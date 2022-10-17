@@ -15,15 +15,3 @@ P
  front-end/src/reportWebVitals.ts,8/b/8b80d4a09f66177dbed8018f82bab7bd520d5060
 K
 front-end/src/setupTests.ts,3/4/345b57678e5d972874903fdfd8ea176ad6b3dc23
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-J
-front-end/src/App.test.tsx,2/c/2c9c6074c81b50936ae71b1d0d3be598334af7c9
-E
-front-end/src/App.tsx,0/5/05b028310a87fa436f3affb9aa26917bb19b1c5a
-G
-front-end/src/index.tsx,6/8/68c72fbbbc587651ff13bbef85ee1e2ebb42f887
-K
-front-end/package-lock.json,b/1/b10eb5280c6c75e013aabf2c26e715af70092813
-D
-front-end/.gitignore,3/4/34c80bf1a301addbc3aea01e969012e2053e52c0
