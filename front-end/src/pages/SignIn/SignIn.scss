@@ -1,0 +1,111 @@
+.signin__wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 999;
+
+  .signin {
+    min-width: 360px;
+    background-color: var(--white);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+
+    .signin__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 12px;
+      background-color: rgba(0, 0, 0, 0.05);
+
+      .signin__title {
+        text-align: center;
+        color: var(--text-color);
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-left: 8px;
+      }
+
+      svg {
+        color: var(--text-color);
+        font-size: 3rem;
+        font-weight: 700;
+        background-color: #ddd;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        padding: 10px;
+      }
+    }
+
+    .signin__form {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 24px;
+
+      label {
+        color: var(--text-color);
+        font-size: 1.6rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
+
+      input {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px 6px;
+        margin-bottom: 10px;
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: var(--text-color);
+      }
+
+      span {
+        color: var(--dangerous-color);
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+      }
+
+      .signin__btn {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--white);
+        background-image: var(--button-color);
+        border-radius: 20px;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        &:active {
+            opacity: 0.6;
+        }
+      }
+
+      .signin__footer {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        span {
+          margin: 0;
+          font-size: 1.6rem;
+          color: var(--text-color);
+          font-weight: 400;
+          margin-right: 4px;
+        }
+
+        a {
+          color: rgba(10, 107, 252, 0.859);
+        }
+      }
+    }
+  }
+}
