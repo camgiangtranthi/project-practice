@@ -26,7 +26,7 @@ const SignIn = () => {
             <input id="username" {...register("username", { required: true, maxLength: 20 })} />
             {errors.username && <span>Username is required</span>}
             <label htmlFor="password">Password </label>
-            <input id="password" {...register(cd "password", { required: true })} />
+            <input id="password" {...register("password", { required: true })} />
             {errors.password && <span>Password is required</span>}
             <button className="signin__btn">Sign in</button>
             <div className="signin__footer">
