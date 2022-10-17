@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Red+Hat+Display:wght@700&family=Roboto:wght@400;700;900&display=swap');
+
+:root {
+  --primary: #4b8ef1;
+  --black: #000;
+  --white: #fff;
+  --text-color: #333;
+  --dangerous-color: red;
+  --button-color: linear-gradient(105deg, rgb(91, 104, 235) 0%, rgb(40, 225, 253) 100%);
+
+  //default layout
+  --default-layout-header-height: 100px;
+  --default-layout-width: 1150px;
+  --default-layout-horrizontal-spacer: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  color: var(--text-color);
+}
+
+button,
+input,
+[tabindex] {
+  border: none;
+  outline: none;
+}
+
+a[href] {
+  color: var(--text-color);
+  text-decoration: none;
+}
