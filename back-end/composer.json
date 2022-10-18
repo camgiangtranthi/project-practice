@@ -1,0 +1,17 @@
+{
+    "name": "b002631/back-end",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "bao8816",
+            "email": "nile1087@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
