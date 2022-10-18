@@ -33,4 +33,11 @@ class UserModel extends Model
     {
         return ['username', 'password', 'firstname', 'lastname', 'avatar', 'created_at'];
     }
+
+    public function findAll()
+    {
+        $statement = $this->prepare("SELECT * FROM users");
+        $statement->execute();
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

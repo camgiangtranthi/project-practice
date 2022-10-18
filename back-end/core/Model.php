@@ -2,7 +2,9 @@
 
 namespace app\core;
 
-class Model
+use app\core\db\DbModel;
+
+abstract class Model extends DbModel
 {
     public const RULE_REQUIRED = 'required';
     public const RULE_MIN = 'min';
@@ -12,7 +14,7 @@ class Model
 
     public array $errors = [];
 
-    public function load($data)
+    public function loadData($data)
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
@@ -84,6 +86,4 @@ class Model
     {
         return [];
     }
-
-
 }

@@ -4,17 +4,15 @@ namespace app\controllers;
 
 use app\core\Request;
 use app\core\Response;
+use app\models\UserModel;
 
 class AuthController
 {
-    public function login(Request $request, Response $response)
+    public function signIn(Request $request)
     {
-        $body = $request->getBody();
-        $response->json($body);
-    }
-
-    public function register()
-    {
-        echo 'register';
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->setData(['message' => 'Sign in successful']);
+        return $response->json($response->data);
     }
 }
