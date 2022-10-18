@@ -7,7 +7,7 @@ const Navbar = () => {
             <div className={"nav__header"}>
                 <div className={"nav__content"}>
                     <Link to="/"><img src="/logo.webp" alt="logo" /></Link>
-                    <button className={"btn__create"}>Create new board</button>
+                    <button className={"btn__create"}>Create column</button>
                 </div>
                 <div className={"nav__profile"}>Avatar</div>
             </div>
