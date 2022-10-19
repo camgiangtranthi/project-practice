@@ -1,0 +1,44 @@
+.column {
+  width: 100%;
+  max-width: var(--default-layout-width);
+  max-height: calc(100vh - var(--default-layout-header-height));
+  margin: 6px auto;
+
+  .column__container {
+    width: 250px;
+    background: var(--background-color);
+    border-radius: 5px;
+    padding: 16px;
+    overflow: hidden;
+
+    .column__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      input {
+        color: var(--black);
+        background: var(--background-color);
+        font-size: 1.5rem;
+        font-weight: 550;
+      }
+
+      svg {
+        color: var(--text-color);
+        font-size: 1.5rem;
+      }
+    }
+
+    .column__addnew {
+      font-size: 1.5rem;
+      color: #666;
+      font-weight: 500;
+      cursor: pointer;
+
+      svg {
+        margin-right: 4px;
+      }
+    }
+  }
+}
