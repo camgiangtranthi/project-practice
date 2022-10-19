@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Red+Hat+Display:wght@700&family=Roboto:wght@400;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Red+Hat+Display:wght@700&family=Roboto:wght@400;700;900&display=swap");
 
 :root {
   --primary: #4b8ef1;
@@ -6,7 +6,12 @@
   --white: #fff;
   --text-color: #333;
   --dangerous-color: red;
-  --button-color: linear-gradient(105deg, rgb(91, 104, 235) 0%, rgb(40, 225, 253) 100%);
+  --background-color: #f1f1f1;
+  --button-color: linear-gradient(
+    105deg,
+    rgb(91, 104, 235) 0%,
+    rgb(40, 225, 253) 100%
+  );
 
   //default layout
   --default-layout-header-height: 100px;
@@ -25,7 +30,7 @@ html {
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizeSpeed;

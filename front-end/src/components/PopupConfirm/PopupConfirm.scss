@@ -1,0 +1,40 @@
+.popup__confirm {
+  width: 280px;
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 16px;
+  position: absolute;
+  top: 10px;
+  left: 260px;
+  z-index: 1;
+
+  .popup__confirm-header {
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+  }
+
+  .popup__confirm-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 6px;
+
+    button {
+      font-size: 1.4rem;
+      margin-right: 8px;
+      padding: 4px 8px;
+      color: var(--text-color);
+      background: var(--white);
+      border: solid 0.02rem var(--text-color);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .btn__confirm {
+      background: #82caff;
+    }
+  }
+}
