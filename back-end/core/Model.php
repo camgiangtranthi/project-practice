@@ -9,10 +9,12 @@ class Model
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
     public const RULE_UNIQUE = 'unique';
+    public const RULE_INTEGER = 'integer';
+    public const LETTERS_AND_NUMBERS = 'lettersAndNumbers';
 
     public array $errors = [];
 
-    public function load($data)
+    public function loadData($data)
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
@@ -54,6 +56,12 @@ class Model
                         $this->addError($attribute, self::RULE_UNIQUE, ['field' => $attribute]);
                     }
                 }
+                if ($ruleName === self::RULE_INTEGER && !is_int($value)) {
+                    $this->addError($attribute, self::RULE_INTEGER);
+                }
+                if ($ruleName === self::LETTERS_AND_NUMBERS && !preg_match('/^[a-zA-Z0-9]+$/', $value)) {
+                    $this->addError($attribute, self::LETTERS_AND_NUMBERS);
+                }
             }
         }
 
@@ -77,6 +85,8 @@ class Model
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
             self::RULE_UNIQUE => 'Record with this {field} already exists',
+            self::RULE_INTEGER => 'This field must be an integer',
+            self::LETTERS_AND_NUMBERS => 'This field must contain only letters and numbers',
         ];
     }
 
