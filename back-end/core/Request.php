@@ -52,6 +52,17 @@ class Request
         return $body;
     }
 
+    public function getHeaders()
+    {
+        return getallheaders();
+    }
+
+    public function getHeader($name)
+    {
+        $headers = $this->getHeaders();
+        return $headers[$name] ?? null;
+    }
+
     public function setRouteParams(array $routeParams)
     {
         $this->routeParams = $routeParams;
