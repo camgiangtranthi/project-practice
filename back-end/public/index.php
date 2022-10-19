@@ -35,8 +35,5 @@ $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 $app->router->post('/sign-up', [new AuthController(), 'signUp']);
 $app->router->post('/sign-in', [new AuthController(), 'signIn']);
 
-//test jwt route
-$app->router->get('/test', [new AuthController(), 'test']);
-
 
 $app->run();

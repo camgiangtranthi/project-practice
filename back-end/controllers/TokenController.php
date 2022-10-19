@@ -5,6 +5,8 @@ namespace app\controllers;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+
 class TokenController
 {
     public static function generateToken($payload)
@@ -18,8 +20,7 @@ class TokenController
     {
         $key = $_ENV['JWT_SECRET'];
         try {
-            $decoded = JWT::decode($token, $key);
-            return $decoded;
+            return JWT::decode($token, new Key($key, 'HS256'));
         } catch (\Exception $e) {
             return false;
         }
