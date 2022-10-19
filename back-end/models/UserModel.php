@@ -2,9 +2,9 @@
 
 namespace app\models;
 
-use app\core\Model;
+use app\core\Abstraction;
 
-class UserModel extends Model
+class UserModel extends Abstraction
 {
     public string $username = '';
     public string $password = '';
@@ -15,12 +15,11 @@ class UserModel extends Model
     public function rules(): array
     {
         return [
-            'username' => [self::RULE_REQUIRED, [self::RULE_UNIQUE, 'class' => self::class]],
-            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8]],
-            'firstname' => [],
-            'lastname' => [],
-            'avatar' => [],
-            'created_at' => [self::RULE_REQUIRED],
+            'username' => [self::RULE_REQUIRED, [self::RULE_UNIQUE, 'class' => self::class], self::LETTERS_AND_NUMBERS],
+            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], self::LETTERS_AND_NUMBERS],
+            'firstname' => [self::LETTERS_AND_SPACES],
+            'lastname' => [self::LETTERS_AND_SPACES],
+            'avatar' => []
         ];
     }
 
@@ -31,6 +30,17 @@ class UserModel extends Model
 
     public function attributes(): array
     {
-        return ['username', 'password', 'firstname', 'lastname', 'avatar', 'created_at'];
+        return ['username', 'password', 'firstname', 'lastname', 'avatar'];
+    }
+
+    public function getDisplayName(): string
+    {
+        return $this->username;
+    }
+
+    public function save()
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        return parent::save();
     }
 }

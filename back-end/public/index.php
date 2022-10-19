@@ -31,5 +31,9 @@ $app->router->post('/columns', [new ColumnController(), 'addColumn']);
 $app->router->post('/columns/{id}', [new ColumnController(), 'updateColumn']);
 $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 
+//Auth routes
+$app->router->post('/sign-up', [new AuthController(), 'signUp']);
+$app->router->post('/sign-in', [new AuthController(), 'signIn']);
+
 
 $app->run();
