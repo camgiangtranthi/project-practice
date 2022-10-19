@@ -6,7 +6,7 @@ use app\core\Request;
 use app\core\Response;
 use app\models\UserModel;
 
-class AuthController
+class AuthController extends ApiController
 {
     public function signUp(Request $request)
     {
@@ -14,23 +14,15 @@ class AuthController
         $response = new Response();
         $data = $request->getBody();
         $userModel->loadData($data);
-        //check password and confirm password
+        if ($userModel->findOne(['username' => $data['username']])) {
+            return $this->respondError($response, 'User already exists');
+        }
         if ($data['password'] !== $data['confirm_password']) {
-            $response->setStatusCode(400);
-            $response->setData(['error' => 'Password and confirm password do not match']);
-            return $response->json($response->data);
+            return $this->respondError($response, 'Passwords do not match');
         }
-
         if ($userModel->validate() && $userModel->save()) {
-            $response->setStatusCode(201);
-            $response->setData(['success' => 'User created']);
-            return $response->json($response->data);
+            return $this->respondCreated($response, 'User created successfully');
         }
-
-        $response->setStatusCode(422);
-        $response->setData($userModel->errors);
-        return $response->json($response->data);
+        return $this->respondUnprocessableEntity($response, $userModel->errors);
     }
-
-
 }
