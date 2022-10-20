@@ -12,8 +12,7 @@ class ColumnController extends ApiController
     {
         $response = new Response();
 
-        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
-        if ($decoded === false) {
+        if (TokenController::authorize($request) === false) {
             return $this->respondUnauthorized($response, 'Unauthorized');
         }
 
@@ -27,8 +26,7 @@ class ColumnController extends ApiController
     {
         $response = new Response();
 
-        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
-        if ($decoded === false) {
+        if (TokenController::authorize($request) === false) {
             return $this->respondUnauthorized($response, 'Unauthorized');
         }
 
@@ -48,8 +46,7 @@ class ColumnController extends ApiController
     {
         $response = new Response();
 
-        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
-        if ($decoded === false) {
+        if (TokenController::authorize($request) === false) {
             return $this->respondUnauthorized($response, 'Unauthorized');
         }
 
@@ -70,6 +67,10 @@ class ColumnController extends ApiController
     public function updateColumn(Request $request)
     {
         $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
 
         $columnModel = new ColumnModel();
 
@@ -95,6 +96,10 @@ class ColumnController extends ApiController
     public function deleteColumn(Request $request)
     {
         $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
 
         $columnModel = new ColumnModel();
 
