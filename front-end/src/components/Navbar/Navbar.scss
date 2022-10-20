@@ -1,6 +1,7 @@
 nav {
   height: 60px;
   width: var(--default-layout-width);
+  position: relative;
 
   .nav__header {
     display: flex;
