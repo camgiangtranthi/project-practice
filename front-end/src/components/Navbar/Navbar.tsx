@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import Column from "../Column/Column";
