@@ -6,118 +6,102 @@ use app\core\Request;
 use app\core\Response;
 use app\models\ColumnModel;
 
-class ColumnController
+class ColumnController extends ApiController
 {
     public function getColumns(Request $request)
     {
-        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
         $response = new Response();
+
+        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
         if ($decoded === false) {
-            $response->setStatusCode(401);
-            $response->setData(['error' => 'Unauthorized']);
-            return $response->json($response->data);
+            return $this->respondUnauthorized($response, 'Unauthorized');
         }
+
         $columnModel = new ColumnModel();
         $columns = $columnModel->findAll();
-        $response->setStatusCode(200);
-        $response->setData($columns);
-        return $response->json($response->data);
+
+        return $this->respondWithData($response, $columns);
     }
 
     public function getColumnById(Request $request)
     {
-        $columnModel = new ColumnModel();
         $response = new Response();
-        $id = $request->getRouteParam('id');
-        $column = $columnModel->findOne(['id' => $id]);
-        if ($column) {
-            $response->setStatusCode(200);
-            $response->setData($column);
-            return $response->json($response->data);
+
+        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
+        if ($decoded === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
         }
-
-        $response->setStatusCode(404);
-        $response->setData(['error' => 'Column not found']);
-        return $response->json($response->data);
-    }
-
-    public function getColumnsByUserId(Request $request)
-    {
         $columnModel = new ColumnModel();
-        $response = new Response();
-        $user_id = $request->getRouteParam('user_id');
-        $columns = $columnModel->findOne(['user_id' => $user_id]);
-        if ($columns) {
-            $response->setStatusCode(200);
-            $response->setData($columns);
-            return $response->json($response->data);
+        $body = $request->getBody();
+        $column = $columnModel->findOne(['id' => $body['id']]);
+        if ($column === false) {
+            return $this->respondNotFound($response, 'Column not found');
         }
-
-        $response->setStatusCode(404);
-        $response->setData(['error' => 'Columns not found']);
-        return $response->json($response->data);
+        return $this->respondWithData($response, $column);
     }
 
     public function addColumn(Request $request)
     {
-        $columnModel = new ColumnModel();
         $response = new Response();
-        $columnModel->loadData($request->getBody());
-        if ($columnModel->validate() && $columnModel->save()) {
-            $response->setStatusCode(201);
-            $response->setData(['message' => 'Column added successfully']);
-            return $response->json($response->data);
+
+        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
+        if ($decoded === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
         }
 
-        $response->setStatusCode(422);
-        $response->setData($columnModel->errors);
-        return $response->json($response->data);
+        $columnModel = new ColumnModel();
+        $columnModel->loadData($request->getBody());
+
+        if ($columnModel->validate() && $columnModel->save()) {
+            return $this->respondSuccess($response, 'Column created successfully');
+        }
+        return $this->respondUnprocessableEntity($response, $columnModel->errors);
     }
 
     public function updateColumn(Request $request)
     {
-        $columnModel = new ColumnModel();
         $response = new Response();
+
+        $columnModel = new ColumnModel();
+
         $id = $request->getRouteParam('id');
         $column = $columnModel->findOne(['id' => $id]);
-        if ($column) {
-            $columnModel->loadData($request->getBody());
-            if ($columnModel->validate() && $columnModel->update($id)) {
-                $response->setStatusCode(200);
-                $response->setData(['message' => 'Column updated successfully']);
-                return $response->json($response->data);
-            }
 
-            $response->setStatusCode(422);
-            $response->setData($columnModel->errors);
-            return $response->json($response->data);
+        if (!$column) {
+            return $this->respondNotFound($response, 'Column not found');
         }
 
-        $response->setStatusCode(404);
-        $response->setData(['error' => 'Column not found']);
-        return $response->json($response->data);
+        $columnModel->loadData($request->getBody());
+        if (!$columnModel->validate()) {
+            return $this->respondUnprocessableEntity($response, $columnModel->errors);
+        }
+
+        $result = $columnModel->update($id);
+        if (!$result) {
+            return $this->respondError($response, 'Column not updated');
+        }
+
+        return $this->respondSuccess($response, 'Column updated successfully');
     }
 
     public function deleteColumn(Request $request)
     {
-        $columnModel = new ColumnModel();
         $response = new Response();
+
+        $columnModel = new ColumnModel();
+
         $id = $request->getRouteParam('id');
         $column = $columnModel->findOne(['id' => $id]);
-        if ($column) {
-            if ($columnModel->delete($id)) {
-                $response->setStatusCode(200);
-                $response->setData(['message' => 'Column deleted successfully']);
-                return $response->json($response->data);
-            }
 
-            $response->setStatusCode(422);
-            $response->setData(['error' => 'Column not deleted']);
-            return $response->json($response->data);
+        if (!$column) {
+            return $this->respondNotFound($response, 'Column not found');
         }
 
-        $response->setStatusCode(404);
-        $response->setData(['error' => 'Column not found']);
-        return $response->json($response->data);
+        $result = $columnModel->delete($id);
+        if (!$result) {
+            return $this->respondError($response, 'Column not deleted');
+        }
+
+        return $this->respondSuccess($response, 'Column deleted successfully');
     }
 }

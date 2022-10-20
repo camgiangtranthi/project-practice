@@ -26,7 +26,6 @@ class Model
         }
     }
 
-    // load data except the fields in the array
     public function loadDataExcept($data, $except)
     {
         foreach ($data as $key => $value) {
@@ -119,6 +118,4 @@ class Model
     {
         return [];
     }
-
-
 }
