@@ -31,12 +31,16 @@ class ColumnController extends ApiController
         if ($decoded === false) {
             return $this->respondUnauthorized($response, 'Unauthorized');
         }
+
         $columnModel = new ColumnModel();
+
         $body = $request->getBody();
         $column = $columnModel->findOne(['id' => $body['id']]);
+
         if ($column === false) {
             return $this->respondNotFound($response, 'Column not found');
         }
+
         return $this->respondWithData($response, $column);
     }
 
@@ -52,10 +56,15 @@ class ColumnController extends ApiController
         $columnModel = new ColumnModel();
         $columnModel->loadData($request->getBody());
 
-        if ($columnModel->validate() && $columnModel->save()) {
-            return $this->respondSuccess($response, 'Column created successfully');
+        if (!$columnModel->validate()) {
+            return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
-        return $this->respondUnprocessableEntity($response, $columnModel->errors);
+
+        if (!$columnModel->save()) {
+            return $this->respondError($response, 'Column could not be added');
+        }
+
+        return $this->respondCreated($response, 'Column added successfully');
     }
 
     public function updateColumn(Request $request)
@@ -76,12 +85,11 @@ class ColumnController extends ApiController
             return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
 
-        $result = $columnModel->update($id);
-        if (!$result) {
+        if (!$columnModel->update($id)) {
             return $this->respondError($response, 'Column not updated');
         }
 
-        return $this->respondSuccess($response, 'Column updated successfully');
+        return $this->respondCreated($response, 'Column updated successfully');
     }
 
     public function deleteColumn(Request $request)
