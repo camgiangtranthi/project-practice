@@ -36,6 +36,27 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function findOneExcept($where, $except)
+    {
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+        foreach ($where as $key => $item) {
+            $statement->bindValue(":$key", $item);
+        }
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($result as $key => $value) {
+            foreach ($value as $k => $v) {
+                if (in_array($k, $except)) {
+                    unset($result[$key][$k]);
+                }
+            }
+        }
+        return $result;
+    }
+
     public function findAll()
     {
         $tableName = $this->tableName();

@@ -10,8 +10,10 @@ class Model
     public const RULE_MATCH = 'match';
     public const RULE_UNIQUE = 'unique';
     public const RULE_INTEGER = 'integer';
+    public const LETTERS_AND_SPACES = 'lettersAndSpaces';
     public const LETTERS_AND_NUMBERS = 'lettersAndNumbers';
     public const LETTERS_SPACES_AND_NUMBERS = 'lettersSpacesAndNumbers';
+    public const RULE_PASSWORD = 'password';
 
     public array $errors = [];
 
@@ -19,6 +21,16 @@ class Model
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
+
+    // load data except the fields in the array
+    public function loadDataExcept($data, $except)
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key) && !in_array($key, $except)) {
                 $this->{$key} = $value;
             }
         }
@@ -60,11 +72,17 @@ class Model
                 if ($ruleName === self::RULE_INTEGER && !is_int($value)) {
                     $this->addError($attribute, self::RULE_INTEGER);
                 }
+                if ($ruleName === self::LETTERS_AND_SPACES && !preg_match('/^[a-zA-Z ]*$/', $value)) {
+                    $this->addError($attribute, self::LETTERS_AND_SPACES);
+                }
                 if ($ruleName === self::LETTERS_AND_NUMBERS && !preg_match('/^[a-zA-Z0-9]+$/', $value)) {
                     $this->addError($attribute, self::LETTERS_AND_NUMBERS);
                 }
                 if ($ruleName === self::LETTERS_SPACES_AND_NUMBERS && !preg_match('/^[a-zA-Z0-9 ]+$/', $value)) {
                     $this->addError($attribute, self::LETTERS_SPACES_AND_NUMBERS);
+                }
+                if ($ruleName === self::RULE_PASSWORD && !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/', $value)) {
+                    $this->addError($attribute, self::RULE_PASSWORD);
                 }
             }
         }
@@ -88,9 +106,12 @@ class Model
             self::RULE_MIN => 'Min length of this field must be {min}',
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
-            self::RULE_UNIQUE => 'Record with this {field} already exists',
+            self::RULE_UNIQUE => 'This {field} already exists',
             self::RULE_INTEGER => 'This field must be an integer',
+            self::LETTERS_AND_SPACES => 'This field must contain only letters and spaces',
             self::LETTERS_AND_NUMBERS => 'This field must contain only letters and numbers',
+            self::LETTERS_SPACES_AND_NUMBERS => 'This field must contain only letters, spaces and numbers',
+            self::RULE_PASSWORD => 'Password must contain at least one number, one uppercase and one lowercase letter, and must be between 8 and 16 characters long'
         ];
     }
 

@@ -2,10 +2,9 @@
 
 namespace app\models;
 
-use app\core\Column;
-use app\core\Model;
+use app\core\Abstraction;
 
-class ColumnModel extends Column
+class ColumnModel extends Abstraction
 {
     public int $id = 0;
     public string $user_id = '';
