@@ -3,11 +3,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import "./Column.scss";
 import PopupConfirm from "../PopupConfirm/PopupConfirm";
 
-interface ColumnProps {
-  addColumn: () => void;
-}
-
-const Column = (props: ColumnProps) => {
+const Column = () => {
   const [isPopupConfirm, setIsPopupConfirm] = useState(false);
 
   const handlePopupConfirm = () => {

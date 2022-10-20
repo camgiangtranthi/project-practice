@@ -40,6 +40,12 @@
       color: #666;
       font-weight: 500;
       cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+
+      &:hover {
+        background: #ddd;
+      }
 
       svg {
         margin-right: 4px;
