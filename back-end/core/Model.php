@@ -109,7 +109,7 @@ class Model
             self::RULE_UNIQUE => 'This {field} already exists',
             self::RULE_INTEGER => 'This field must be an integer',
             self::LETTERS_AND_SPACES => 'This field must contain only letters and spaces',
-            self::LETTERS_AND_NUMBERS => 'This field must contain only letters and numbers',
+            self::LETTERS_AND_NUMBERS => 'This field must contain only letters and numbers and no spaces',
             self::LETTERS_SPACES_AND_NUMBERS => 'This field must contain only letters, spaces and numbers',
             self::RULE_PASSWORD => 'Password must contain at least one number, one uppercase and one lowercase letter, and must be between 8 and 16 characters long'
         ];

@@ -8,10 +8,16 @@ use app\models\ColumnModel;
 
 class ColumnController
 {
-    public function getColumns()
+    public function getColumns(Request $request)
     {
-        $columnModel = new ColumnModel();
+        $decoded = TokenController::verifyToken($request->getHeader('Authorization'));
         $response = new Response();
+        if ($decoded === false) {
+            $response->setStatusCode(401);
+            $response->setData(['error' => 'Unauthorized']);
+            return $response->json($response->data);
+        }
+        $columnModel = new ColumnModel();
         $columns = $columnModel->findAll();
         $response->setStatusCode(200);
         $response->setData($columns);

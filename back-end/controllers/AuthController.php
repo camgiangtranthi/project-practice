@@ -25,4 +25,28 @@ class AuthController extends ApiController
         }
         return $this->respondUnprocessableEntity($response, $userModel->errors);
     }
+
+    public function signIn(Request $request)
+    {
+        $userModel = new UserModel();
+        $response = new Response();
+        $data = $request->getBody();
+        $user = $userModel->findOneAllowPassword(['username' => $data['username']]);
+        if (!$user) {
+            return $this->respondError($response, 'User not found');
+        }
+
+        if (!password_verify($data['password'], $user->password)) {
+            return $this->respondError($response, 'Password is incorrect');
+        }
+
+        $payload = [
+            'id' => $user->id,
+            'username' => $user->username,
+            'exp' => time() + 60 * 60 * 24 * 7
+        ];
+
+        $token = TokenController::generateToken($payload);
+        return $this->respondWithData($response, ['user' => $user, 'token' => $token]);
+    }
 }
