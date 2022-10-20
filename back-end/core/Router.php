@@ -38,7 +38,7 @@ class Router
     {
         $method = $this->request->getMethod();
         $url = $this->request->getPath();
-        // Trim slashes
+
         $url = trim($url, '/');
 
         // Get all routes for current request method

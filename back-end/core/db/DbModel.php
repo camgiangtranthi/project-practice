@@ -36,7 +36,6 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    //findOne allow read property password
     public function findOneAllowPassword($where)
     {
         $tableName = static::tableName();
