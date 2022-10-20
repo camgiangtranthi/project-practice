@@ -16,7 +16,7 @@ class UserModel extends Abstraction
     {
         return [
             'username' => [self::RULE_REQUIRED, [self::RULE_UNIQUE, 'class' => self::class], self::LETTERS_AND_NUMBERS],
-            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], self::LETTERS_AND_NUMBERS],
+            'password' => [self::RULE_PASSWORD],
             'firstname' => [self::LETTERS_AND_SPACES],
             'lastname' => [self::LETTERS_AND_SPACES],
             'avatar' => []

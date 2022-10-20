@@ -6,7 +6,7 @@ use app\core\Request;
 use app\core\Response;
 use app\models\UserModel;
 
-class AuthController
+class AuthController extends ApiController
 {
     public function signUp(Request $request)
     {
@@ -14,22 +14,16 @@ class AuthController
         $response = new Response();
         $data = $request->getBody();
         $userModel->loadData($data);
-        //check password and confirm password
+        if ($userModel->findOne(['username' => $data['username']])) {
+            return $this->respondError($response, 'User already exists');
+        }
         if ($data['password'] !== $data['confirm_password']) {
-            $response->setStatusCode(400);
-            $response->setData(['error' => 'Password and confirm password do not match']);
-            return $response->json($response->data);
+            return $this->respondError($response, 'Passwords do not match');
         }
-
         if ($userModel->validate() && $userModel->save()) {
-            $response->setStatusCode(201);
-            $response->setData(['success' => 'User created']);
-            return $response->json($response->data);
+            return $this->respondCreated($response, 'User created successfully');
         }
-
-        $response->setStatusCode(422);
-        $response->setData($userModel->errors);
-        return $response->json($response->data);
+        return $this->respondUnprocessableEntity($response, $userModel->errors);
     }
 
     public function signIn(Request $request)
@@ -39,15 +33,11 @@ class AuthController
         $data = $request->getBody();
         $user = $userModel->findOneAllowPassword(['username' => $data['username']]);
         if (!$user) {
-            $response->setStatusCode(404);
-            $response->setData(['error' => 'User not found']);
-            return $response->json($response->data);
+            return $this->respondError($response, 'User not found');
         }
 
         if (!password_verify($data['password'], $user->password)) {
-            $response->setStatusCode(401);
-            $response->setData(['error' => 'Password is incorrect']);
-            return $response->json($response->data);
+            return $this->respondError($response, 'Password is incorrect');
         }
 
         $payload = [
@@ -57,8 +47,6 @@ class AuthController
         ];
 
         $token = TokenController::generateToken($payload);
-        $response->setStatusCode(200);
-        $response->setData(['user' => $user, 'token' => $token]);
-        return $response->json($response->data);
+        return $this->respondWithData($response, ['user' => $user, 'token' => $token]);
     }
 }
