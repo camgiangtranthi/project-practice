@@ -1,5 +1,8 @@
 import AxiosClient from "../shared/axios-client/axiosClient";
-import { columnInfoResponse } from "../shared/models/column";
+import {
+  columnCreateRequest,
+  columnInfoResponse,
+} from "../shared/models/column";
 
 const columnApi = {
   getColumns: () => {
@@ -10,7 +13,7 @@ const columnApi = {
     return AxiosClient.get<columnInfoResponse>(`/columns/${id}`);
   },
 
-  createColumn: (title: string) => {
+  createColumn: (title: columnCreateRequest) => {
     return AxiosClient.post<columnInfoResponse>(`/columns`, { title });
   },
 

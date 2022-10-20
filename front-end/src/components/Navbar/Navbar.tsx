@@ -26,9 +26,9 @@ const Navbar = () => {
           <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
             Avatar
           </span>
+          {isPopupProfile && <PopupProfile />}
         </div>
       </div>
-      <Column />
     </nav>
   );
 };

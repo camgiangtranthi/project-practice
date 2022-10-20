@@ -4,6 +4,8 @@ namespace app\core;
 
 class Request 
 {
+    private array $routeParams = [];
+
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -48,5 +50,31 @@ class Request
         }
 
         return $body;
+    }
+
+    public function getHeaders()
+    {
+        return getallheaders();
+    }
+
+    public function getHeader($name)
+    {
+        $headers = $this->getHeaders();
+        return $headers[$name] ?? null;
+    }
+
+    public function setRouteParams(array $routeParams)
+    {
+        $this->routeParams = $routeParams;
+    }
+
+    public function getRouteParams()
+    {
+        return $this->routeParams;
+    }
+
+    public function getRouteParam($param, $default = null)
+    {
+        return $this->routeParams[$param] ?? $default;
     }
 }

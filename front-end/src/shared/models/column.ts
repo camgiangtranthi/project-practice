@@ -9,6 +9,22 @@ export interface columnInfoResponse extends column {
   title: string;
 }
 
+export interface columnResponse extends column {
+  id: string;
+}
+
+export interface columnCreateRequest {
+  title: string;
+}
+
+export interface columnUpdateRequest {
+  title: string;
+}
+
+export interface columnDeleteRequest {
+  id: string;
+}
+
 export interface columnDetailProp {
   activeColumn: boolean;
   onAddNote: () => void;
