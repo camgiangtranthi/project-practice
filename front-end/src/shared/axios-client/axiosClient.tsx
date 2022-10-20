@@ -8,10 +8,10 @@ const getUserFromLocalStorage = (): UserResponse => {
 };
 
 const axiosClient = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com/users",
+  baseURL: API_BASE_URL,
   headers: {
     Accept: "application/json",
-    "Content-type": "multipart/form-data",
+    "Content-type": "application/x-www-form-urlencoded",
     Authorization: getUserFromLocalStorage()?.token,
   },
 });

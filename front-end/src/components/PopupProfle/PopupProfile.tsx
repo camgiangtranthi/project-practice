@@ -9,7 +9,7 @@ const PopupProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem("current_user");
     currentUserContext?.setUserResponse(
-      JSON.parse(localStorage.getItem("current_user") || "false")
+      JSON.parse(localStorage.getItem("current_user") || "")
     );
   };
 

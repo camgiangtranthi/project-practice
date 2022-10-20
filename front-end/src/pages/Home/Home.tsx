@@ -3,16 +3,21 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 import Navbar from "../../components/Navbar/Navbar";
+import { UserResponse } from "../../shared/models/user";
 
 const Home = () => {
   const currentUserContext = useContext(UserContext);
   const navigate = useNavigate();
 
+  const getUserFromLocalStorage = (): UserResponse => {
+    return JSON.parse(localStorage.getItem("current_user") || "false");
+  };
+
   useEffect(() => {
-    if (!currentUserContext?.userReponse) {
+    if (!getUserFromLocalStorage()) {
       navigate("/signin");
     }
-  }, [currentUserContext?.userReponse, navigate]);
+  }, []);
 
   return (
     <div className="home">

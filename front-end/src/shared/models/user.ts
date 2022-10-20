@@ -8,12 +8,9 @@ export interface User {
   firstname?: string;
   lastname?: string;
   avatar?: string;
-  email: string;
-  password: string;
 }
 
 export interface UserResponse {
-  data: any;
   user: User;
   token: string;
 }
