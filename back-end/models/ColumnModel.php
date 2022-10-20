@@ -15,7 +15,7 @@ class ColumnModel extends Column
     {
         return [
             'user_id' => [self::RULE_REQUIRED],
-            'title' => [self::RULE_REQUIRED, [self::RULE_MAX, 'max' => 100], self::LETTERS_AND_NUMBERS],
+            'title' => [self::RULE_REQUIRED, [self::RULE_MAX, 'max' => 100], self::LETTERS_SPACES_AND_NUMBERS],
         ];
     }
 
@@ -32,5 +32,12 @@ class ColumnModel extends Column
     public function getDisplayName(): string
     {
         return $this->title;
+    }
+
+    public function update($id)
+    {
+        //keep id the same
+        $this->id = $id;
+        return parent::update($id);
     }
 }

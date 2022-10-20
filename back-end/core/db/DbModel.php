@@ -33,7 +33,6 @@ abstract class DbModel extends Model
             $statement->bindValue(":$key", $item);
         }
         $statement->execute();
-        //Return array type of object
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -45,26 +44,23 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function update($where)
+    public function update($id)
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-        $sql = implode(", ", $params);
-        $statement = self::prepare("UPDATE $tableName SET $sql WHERE id = :id");
+        $statement = self::prepare("UPDATE $tableName SET " . implode(',', $params) . " WHERE id = $id");
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
-        $statement->bindValue(":id", $where['id']);
         $statement->execute();
         return true;
     }
 
-    public function delete($where)
+    public function delete($id)
     {
         $tableName = $this->tableName();
-        $statement = self::prepare("DELETE FROM $tableName WHERE id = :id");
-        $statement->bindValue(":id", $where['id']);
+        $statement = self::prepare("DELETE FROM $tableName WHERE id = $id");
         $statement->execute();
         return true;
     }

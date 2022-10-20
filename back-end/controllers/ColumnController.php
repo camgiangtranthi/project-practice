@@ -67,4 +67,51 @@ class ColumnController
         $response->setData($columnModel->errors);
         return $response->json($response->data);
     }
+
+    public function updateColumn(Request $request)
+    {
+        $columnModel = new ColumnModel();
+        $response = new Response();
+        $id = $request->getRouteParam('id');
+        $column = $columnModel->findOne(['id' => $id]);
+        if ($column) {
+            $columnModel->loadData($request->getBody());
+            if ($columnModel->validate() && $columnModel->update($id)) {
+                $response->setStatusCode(200);
+                $response->setData(['message' => 'Column updated successfully']);
+                return $response->json($response->data);
+            }
+
+            $response->setStatusCode(422);
+            $response->setData($columnModel->errors);
+            return $response->json($response->data);
+        }
+
+        $response->setStatusCode(404);
+        $response->setData(['error' => 'Column not found']);
+        return $response->json($response->data);
+    }
+
+    public function deleteColumn(Request $request)
+    {
+        $columnModel = new ColumnModel();
+        $response = new Response();
+        $id = $request->getRouteParam('id');
+        $column = $columnModel->findOne(['id' => $id]);
+        if ($column) {
+            if ($columnModel->delete($id)) {
+                $response->setStatusCode(200);
+                $response->setData(['message' => 'Column deleted successfully']);
+                return $response->json($response->data);
+            }
+
+            $response->setStatusCode(422);
+            $response->setData(['error' => 'Column not deleted']);
+            return $response->json($response->data);
+        }
+
+        $response->setStatusCode(404);
+        $response->setData(['error' => 'Column not found']);
+        return $response->json($response->data);
+    }
 }

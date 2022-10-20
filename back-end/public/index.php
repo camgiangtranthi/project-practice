@@ -28,6 +28,8 @@ $app->router->get('/columns', [ColumnController::class, 'getColumns']);
 $app->router->get('/columns/{id}', [ColumnController::class, 'getColumnById']);
 $app->router->get('/columns/user/{user_id}', [ColumnController::class, 'getColumnsByUserId']);
 $app->router->post('/columns', [new ColumnController(), 'addColumn']);
+$app->router->post('/columns/{id}', [new ColumnController(), 'updateColumn']);
+$app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 
 
 $app->run();

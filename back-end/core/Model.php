@@ -11,6 +11,7 @@ class Model
     public const RULE_UNIQUE = 'unique';
     public const RULE_INTEGER = 'integer';
     public const LETTERS_AND_NUMBERS = 'lettersAndNumbers';
+    public const LETTERS_SPACES_AND_NUMBERS = 'lettersSpacesAndNumbers';
 
     public array $errors = [];
 
@@ -61,6 +62,9 @@ class Model
                 }
                 if ($ruleName === self::LETTERS_AND_NUMBERS && !preg_match('/^[a-zA-Z0-9]+$/', $value)) {
                     $this->addError($attribute, self::LETTERS_AND_NUMBERS);
+                }
+                if ($ruleName === self::LETTERS_SPACES_AND_NUMBERS && !preg_match('/^[a-zA-Z0-9 ]+$/', $value)) {
+                    $this->addError($attribute, self::LETTERS_SPACES_AND_NUMBERS);
                 }
             }
         }

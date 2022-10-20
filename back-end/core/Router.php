@@ -24,6 +24,11 @@ class Router
         $this->routeMap['post'][$path] = $callback;
     }
 
+    public function delete($path, $callback)
+    {
+        $this->routeMap['delete'][$path] = $callback;
+    }
+
     public function getRouteMap($method)
     {
         return $this->routeMap[$method] ?? [];
