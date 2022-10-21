@@ -1,8 +1,7 @@
 export interface SignUpData {
   username: string;
-  email: string;
   password: string;
-  password_confirmation: string;
+  confirm_password: string;
 }
 
 export interface SignInData {
@@ -24,17 +23,9 @@ export interface SignUpInfoResponse {
 
 export interface SignUpErrorResponse {
   message: string;
-  errors: {
-    username?: string;
-    email?: string;
-    password?: string;
-  };
+  error: string;
 }
 
 export interface SignInErrorResponse {
-  message: string;
-  errors: {
-    email?: string;
-    password?: string;
-  };
+  error: string;
 }

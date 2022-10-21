@@ -11,7 +11,7 @@ const axiosClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     Accept: "application/json",
-    "Content-type": "multipart/form-data",
+    "Content-type": "application/x-www-form-urlencoded",
     Authorization: getUserFromLocalStorage()?.token,
   },
 });

@@ -4,6 +4,8 @@ namespace app\controllers;
 
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+use app\core\Request;
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
@@ -26,4 +28,9 @@ class TokenController
         }
     }
 
+    public static function authorize(Request $request)
+    {
+        $decoded = self::verifyToken($request->getHeader('Authorization'));
+        return $decoded !== false ? $decoded : false;
+    }
 }

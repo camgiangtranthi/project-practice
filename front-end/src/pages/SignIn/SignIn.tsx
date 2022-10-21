@@ -12,8 +12,6 @@ type Inputs = {
   password: string;
 };
 
-class currentUser {}
-
 const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState<SignInErrorResponse>();
   const [signInSuccessfully, setSignInSuccessfully] = useState<boolean>(false);
@@ -30,7 +28,7 @@ const SignIn = () => {
     if (userContext?.userReponse) {
       navigate("/");
     }
-  }, [userContext]);
+  }, [userContext?.userReponse, navigate]);
 
   useEffect(() => {
     if (signInSuccessfully) {
@@ -38,17 +36,18 @@ const SignIn = () => {
     }
   }, [signInSuccessfully]);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    try {
-      const response = await authApi.signIn(data);
-      const user = response.data;
-      userContext?.setUserResponse(user);
-      setSignInSuccessfully(true);
-      navigate("/");
-    } catch (error) {
-      const err = error as AxiosError<SignInErrorResponse>;
-      setErrorMessage(err.response?.data);
-    }
+  const onSubmit: SubmitHandler<Inputs> = async (data: SignInData) => {
+    await authApi
+      .signIn(data)
+      .then((response) => {
+        setSignInSuccessfully(true);
+        localStorage.setItem("current_user", JSON.stringify(response.data));
+        navigate("/");
+      })
+      .catch((error: AxiosError<SignInErrorResponse>) => {
+        setErrorMessage(error.response?.data);
+        setSignInSuccessfully(false);
+      });
   };
 
   return (
@@ -57,22 +56,31 @@ const SignIn = () => {
         <div className="signin__header">
           <h2 className="signin__title">Sign In</h2>
         </div>
-        <form className="signin__form" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="signin__form"
+          onSubmit={handleSubmit((data) => onSubmit(data))}
+        >
           <label htmlFor="username">Username </label>
           <input id="username" {...register("username", { required: true })} />
           {errors.username && (
             <span className="error-message">Username is required</span>
           )}
-          {errorMessage?.errors.email && (
-            <p className="error-message">{errorMessage?.errors.email}</p>
+          {errorMessage?.error && (
+            <p className="error-message">{errorMessage?.error}</p>
           )}
           <label htmlFor="password">Password </label>
-          <input id="password" {...register("password", { required: true })} />
+          <input
+            type="password"
+            id="password"
+            {...register("password", { required: true })}
+          />
           {errors.password && <span>Password is required</span>}
-          {errorMessage?.errors.password && (
-            <p className="error-message">{errorMessage?.errors.password}</p>
+          {errorMessage?.error && (
+            <p className="error-message">{errorMessage?.error}</p>
           )}
-          <button className="signin__btn">Sign in</button>
+          <button className="signin__btn" type="submit">
+            Sign in
+          </button>
           <div className="signin__footer">
             <span>Don't have an account?</span>
             <Link to="/signup">Sign up</Link>

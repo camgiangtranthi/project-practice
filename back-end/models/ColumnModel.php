@@ -7,14 +7,14 @@ use app\core\Abstraction;
 class ColumnModel extends Abstraction
 {
     public int $id = 0;
-    public string $user_id = '';
     public string $title = '';
+    public int $column_order = 0;
 
     public function rules(): array
     {
         return [
-            'user_id' => [self::RULE_REQUIRED],
             'title' => [self::RULE_REQUIRED, [self::RULE_MAX, 'max' => 100], self::LETTERS_SPACES_AND_NUMBERS],
+            'column_order' => [self::RULE_INTEGER]
         ];
     }
 
@@ -25,7 +25,7 @@ class ColumnModel extends Abstraction
 
     public function attributes(): array
     {
-        return ['id', 'user_id', 'title'];
+        return ['id', 'title', 'column_order'];
     }
 
     public function getDisplayName(): string
@@ -33,9 +33,22 @@ class ColumnModel extends Abstraction
         return $this->title;
     }
 
+    // Create order before saving
+    public function save()
+    {
+        $this->column_order = $this->getMaxOrder() + 1;
+        return parent::save();
+    }
+
+    public function getMaxOrder()
+    {
+        $statement = $this->prepare("SELECT MAX(`column_order`) FROM {$this->tableName()}");
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
     public function update($id)
     {
-        //keep id the same
         $this->id = $id;
         return parent::update($id);
     }

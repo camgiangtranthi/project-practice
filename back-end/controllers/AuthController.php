@@ -10,28 +10,37 @@ class AuthController extends ApiController
 {
     public function signUp(Request $request)
     {
-        $userModel = new UserModel();
         $response = new Response();
+
+        $userModel = new UserModel();
+
         $data = $request->getBody();
         $userModel->loadData($data);
+
         if ($userModel->findOne(['username' => $data['username']])) {
             return $this->respondError($response, 'User already exists');
         }
+
         if ($data['password'] !== $data['confirm_password']) {
             return $this->respondError($response, 'Passwords do not match');
         }
+
         if ($userModel->validate() && $userModel->save()) {
             return $this->respondCreated($response, 'User created successfully');
         }
+
         return $this->respondUnprocessableEntity($response, $userModel->errors);
     }
 
     public function signIn(Request $request)
     {
-        $userModel = new UserModel();
         $response = new Response();
+
+        $userModel = new UserModel();
+
         $data = $request->getBody();
         $user = $userModel->findOneAllowPassword(['username' => $data['username']]);
+
         if (!$user) {
             return $this->respondError($response, 'User not found');
         }
@@ -43,7 +52,7 @@ class AuthController extends ApiController
         $payload = [
             'id' => $user->id,
             'username' => $user->username,
-            'exp' => time() + 60 * 60 * 24 * 7
+            'exp' => time() + 60 * 60
         ];
 
         $token = TokenController::generateToken($payload);

@@ -1,14 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
-import Column from "../Column/Column";
 import PopupProfile from "../PopupProfle/PopupProfile";
 
 const Navbar = () => {
   const [isPopupProfile, setIsPopupProfile] = useState(false);
-  const [columnsToShow, setColumnsToShow] = useState([]);
-  const [columnToShow, setColumnToShow] = useState("");
-  const titleInput = useRef(null);
 
   const handlePopupProfile = () => {
     setIsPopupProfile(!isPopupProfile);
