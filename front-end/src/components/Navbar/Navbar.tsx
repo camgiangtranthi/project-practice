@@ -1,9 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import PopupProfile from "../PopupProfle/PopupProfile";
+import { UserResponse } from "../../shared/models/user";
 
-const Navbar = () => {
+interface INavbarProps {
+  userResponse: UserResponse;
+}
+
+const Navbar = (props: INavbarProps) => {
   const [isPopupProfile, setIsPopupProfile] = useState(false);
 
   const handlePopupProfile = () => {
@@ -21,9 +26,18 @@ const Navbar = () => {
         </div>
         <div className={"nav__profile"}>
           <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
-            Avatar
+            <img
+              className={"profile__avatar"}
+              src={props.userResponse.user.avatar}
+            />
           </span>
-          {isPopupProfile && <PopupProfile />}
+          {isPopupProfile && (
+            <PopupProfile
+              userResponse={JSON.parse(
+                localStorage.getItem("current_user") || ""
+              )}
+            />
+          )}
         </div>
       </div>
     </nav>
