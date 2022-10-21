@@ -5,7 +5,7 @@ interface IPopupConfirm {
   handleDeleteColumn: (columnId: string) => void;
 }
 
-const PopupConfirm = (props: IPopupConfirm) => {
+const PopupConfirm = () => {
   const [isPopupConfirm, setIsPopupConfirm] = useState(false);
 
   const handlePopupConfirm = () => {

@@ -17,7 +17,7 @@ const columnApi = {
     return AxiosClient.post<columnInfoResponse>(`/columns`, { title });
   },
 
-  updateColumn: (id: string, title: string) => {
+  updateColumn: (id: string, title: columnCreateRequest) => {
     return AxiosClient.patch<columnInfoResponse>(`/columns/${id}`, { title });
   },
 
