@@ -66,7 +66,7 @@ const SignIn = () => {
             <span className="error-message">Username is required</span>
           )}
           {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.error}</p>
+            <span className="error-message">{errorMessage?.error}</span>
           )}
           <label htmlFor="password">Password </label>
           <input
@@ -76,7 +76,7 @@ const SignIn = () => {
           />
           {errors.password && <span>Password is required</span>}
           {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.error}</p>
+            <span className="error-message">{errorMessage?.error}</span>
           )}
           <button className="signin__btn" type="submit">
             Sign in

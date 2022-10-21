@@ -70,10 +70,10 @@ const SignUp = () => {
             })}
           />
           {errors.username && (
-            <p className="error-message">{errors.username.message}</p>
+            <span className="error-message">{errors.username.message}</span>
           )}
           {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.message}</p>
+            <span className="error-message">{errorMessage?.message}</span>
           )}
           <label htmlFor="password">Password </label>
           <input
@@ -97,10 +97,10 @@ const SignUp = () => {
             })}
           />
           {errors.password && (
-            <p className="error-message">{errors.password.message}</p>
+            <span className="error-message">{errors.password.message}</span>
           )}
           {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.message}</p>
+            <span className="error-message">{errorMessage?.message}</span>
           )}
           <label className="signup__form-label">Confirm password</label>
           <input
@@ -113,7 +113,9 @@ const SignUp = () => {
             })}
           />
           {errors.confirm_password && (
-            <p className="error-message">{errors.confirm_password.message}</p>
+            <span className="error-message">
+              {errors.confirm_password.message}
+            </span>
           )}
           <button className="signup__btn">Create account</button>
           <div className="signup__footer">
