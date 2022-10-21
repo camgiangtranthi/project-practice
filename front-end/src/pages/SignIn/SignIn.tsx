@@ -62,9 +62,6 @@ const SignIn = () => {
         >
           <label htmlFor="username">Username </label>
           <input id="username" {...register("username", { required: true })} />
-          {errors.username && (
-            <span className="error-message">Username is required</span>
-          )}
           {errorMessage?.error && (
             <span className="error-message">{errorMessage?.error}</span>
           )}
@@ -74,7 +71,6 @@ const SignIn = () => {
             id="password"
             {...register("password", { required: true })}
           />
-          {errors.password && <span>Password is required</span>}
           {errorMessage?.error && (
             <span className="error-message">{errorMessage?.error}</span>
           )}
