@@ -52,4 +52,25 @@ class ColumnModel extends Abstraction
         $this->id = $id;
         return parent::update($id);
     }
+
+    // Front end return array of columns include id and their new order.
+    // Example: $columnsWithOrder = ['id', 'column_order'];
+    // [
+    // ['id' => '1', 'column_order' => '1'],
+    // ['id' => '2', 'column_order' => '2'],
+    // ['id' => '3', 'column_order' => '3']
+    // ]
+
+    public function updateOrder($columnsWithOrder)
+    {
+        foreach ($columnsWithOrder as $column) {
+            $statement = $this->prepare("UPDATE {$this->tableName()} SET `column_order` = ? WHERE `id` = ?;");
+            $statement->bindValue(1, $column['column_order']);
+            $statement->bindValue(2, $column['id']);
+            if (!$statement->execute()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

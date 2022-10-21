@@ -27,6 +27,7 @@ $app = new Application(dirname(__DIR__), $config);
 $app->router->get('/columns', [ColumnController::class, 'getColumns']);
 $app->router->get('/columns/{id}', [ColumnController::class, 'getColumnById']);
 $app->router->post('/columns', [new ColumnController(), 'addColumn']);
+$app->router->post('/columns/order', [new ColumnController(), 'updateOrder']);
 $app->router->post('/columns/{id}', [new ColumnController(), 'updateColumn']);
 $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 

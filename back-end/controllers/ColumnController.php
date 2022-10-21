@@ -93,6 +93,25 @@ class ColumnController extends ApiController
         return $this->respondCreated($response, 'Column updated successfully');
     }
 
+    public function updateOrder(Request $request)
+    {
+        $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
+
+        $body = $request->getBody();
+
+        $columnModel = new ColumnModel();
+
+        if ($columnModel->updateOrder($body) === false) {
+            return $this->respondNotFound($response, 'Columns not updated');
+        }
+
+        return $this->respondCreated($response, 'Columns updated successfully');
+    }
+
     public function deleteColumn(Request $request)
     {
         $response = new Response();

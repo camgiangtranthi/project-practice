@@ -56,6 +56,7 @@ class AuthController extends ApiController
         ];
 
         $token = TokenController::generateToken($payload);
+        unset($user->errors, $user->password);
         return $this->respondWithData($response, ['user' => $user, 'token' => $token]);
     }
 }

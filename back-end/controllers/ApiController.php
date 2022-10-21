@@ -32,7 +32,7 @@ class ApiController
     public function respondSuccess(Response $response, $success)
     {
         $response->setStatusCode(self::SUCCESS_STATUS_CODE);
-        $response->setData(['success' => $success]);
+        $response->setData(['message' => $success]);
         return $response->json($response->data);
     }
 
@@ -46,7 +46,7 @@ class ApiController
     public function respondCreated(Response $response, $success)
     {
         $response->setStatusCode(self::CREATED_STATUS_CODE);
-        $response->setData(['success' => $success]);
+        $response->setData(['message' => $success]);
         return $response->json($response->data);
     }
 
