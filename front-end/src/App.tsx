@@ -8,9 +8,9 @@ function App() {
   return (
     <div className="wrapper-content">
       <Routes>
-        <Route path="/" element={<PrivateRoute />}>
+        {/*<Route path="/" element={<PrivateRoute />}>*/}
           <Route path="/" element={<Home />} />
-        </Route>
+        {/*</Route>*/}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
