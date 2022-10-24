@@ -14,13 +14,14 @@ class TokenController
     public static function generateToken($payload)
     {
         $key = $_ENV['JWT_SECRET'];
-        $token = JWT::encode($payload, $key, 'HS256');
+        $token = 'Bearer ' . JWT::encode($payload, $key, 'HS256');
         return $token;
     }
 
     public static function verifyToken($token)
     {
         $key = $_ENV['JWT_SECRET'];
+        $token = str_replace('Bearer ', '', $token);
         try {
             return JWT::decode($token, new Key($key, 'HS256'));
         } catch (\Exception $e) {
