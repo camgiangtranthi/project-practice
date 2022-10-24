@@ -20,7 +20,7 @@ export interface columnCreateRequest {
 }
 
 export interface columnUpdateRequest {
-    id: string;
+    id: any;
     title: string;
 }
 

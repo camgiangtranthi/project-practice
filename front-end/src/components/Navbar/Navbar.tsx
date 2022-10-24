@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, ChangeEvent} from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from 'uuid';
 import "./Navbar.scss";
@@ -11,7 +11,8 @@ const Navbar = () => {
   const [isPopupProfile, setIsPopupProfile] = useState(false);
   const [title, setTitle] = useState("");
   // @ts-ignore
-  const [columns, setColumns] = useState<Column[]>([]);
+  const [column, setColumn] = useState<Column>({title: ""});
+  const [columns, setColumns] = useState([]);
   
   const retrieveColumns = async () => {
     const response = await api.get("/columns");
@@ -22,21 +23,20 @@ const Navbar = () => {
     setIsPopupProfile(!isPopupProfile);
   };
   
-  const addColumnHandler = async (column : any) => {
+  // @ts-ignore
+  const addColumnHandler = async (column) => {
+    console.log(column);
     const request = {
       id: uuid(),
       ...column,
     };
     
     const response = await api.post("/columns", request);
-    const columnResponse = response.data;
-    setColumns([...columns, columnResponse]);
+    const {id, title} = response.data;
+    // @ts-ignore
+    setColumns([...columns, response.data]);
+    setColumn({id, title});
   };
-  
-  const addColumn = () => {
-    addColumnHandler({title});
-    setTitle("");
-  }
   
   useEffect(() => {
     const getAllColumns = async () => {
@@ -46,6 +46,11 @@ const Navbar = () => {
     
     getAllColumns();
   }, []);
+  
+  // @ts-ignore
+  const addColumn = () => {
+    addColumnHandler(column);
+  }
 
   return (
     <nav>
@@ -73,6 +78,8 @@ const Navbar = () => {
       </div>
       <Column
           columns={columns}
+          column={column}
+          // @ts-ignore
           setColumns={setColumns}
           addColumn={addColumn}
       />

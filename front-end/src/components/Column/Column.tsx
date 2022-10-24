@@ -1,9 +1,10 @@
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import { Autosave, useAutosave } from 'react-autosave';
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useState, useCallback} from "react";
 import "./Column.scss";
-import {columnCreateRequest, columnUpdateRequest} from "../../shared/models/column";
+import {column, columnCreateRequest, columnUpdateRequest} from "../../shared/models/column";
 import {api} from "../../api/column";
+
+import AutoSave from "../AutoSave/AutoSave";
 
 
 interface IColumnProps {
@@ -12,11 +13,17 @@ interface IColumnProps {
 	addColumn: (column: columnCreateRequest) => void;
 }
 
-const Column = (props: IColumnProps) => {
-	const [title, setTitle] = useState((props.columns[0].title) || "");
+export const LOCAL_STORAGE_KEY = "columns";
+
+export type Column = { title: string };
+
+const Column = (props: IColumnProps, Column : Column) => {
+	const [columnTitle, setColumnTitle] = useState<Column>(
+		() => ({title : window.localStorage.getItem(LOCAL_STORAGE_KEY) || ""})
+	);
 	
 	const handleUpdateColumn = async (column: columnUpdateRequest) => {
-		const response = await api.post(`/columns/${column.id}`, column);
+		const response = await api.put(`/columns/${column.id}`, column);
 		const {id, title} = response.data;
 		props.setColumns(
 			props.columns.map((column) => {
@@ -25,12 +32,22 @@ const Column = (props: IColumnProps) => {
 		);
 	}
 	
-	useAutosave({data: title, onSave: (data) => handleUpdateColumn({id: props.columns[0].id, title: data})});
+	const handleDeleteColumn = async (id: any) => {
+		await api.delete(`/columns/${id}`);
+		const newColumns = props.columns.filter((column) => column.id !== id);
+		// props.setColumns(newColumns);
+	}
 	
-	const updateColumn = (event: ChangeEvent<HTMLInputElement>) => {
+	const onColumnTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		console.log(event.target.value);
 		event.preventDefault();
 		handleUpdateColumn({id: event.target.id, title: event.target.value});
-		setTitle("");
+		// @ts-ignore
+		setColumnTitle("");
+	}
+	
+	const onDeleteColumn = (id: any) => {
+		handleDeleteColumn(id);
 	}
 	
 	return (
@@ -45,11 +62,12 @@ const Column = (props: IColumnProps) => {
 										type="text"
 										className={"column__title"}
 										placeholder={"Enter column title"}
-										onChange={updateColumn}
-										value={title}
+										onChange={onColumnTitleChange}
+										value={columnTitle.title}
 									/>
+									<AutoSave column={column}/>
 								</form>
-								<div className={"column__header-icon"}>
+								<div className={"column__header-icon"} onClick={() => onDeleteColumn(id)}>
 									<DeleteOutlined/>
 								</div>
 							</div>
