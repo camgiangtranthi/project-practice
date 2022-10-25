@@ -27,10 +27,10 @@ $config = [
 $app = new Application(dirname(__DIR__), $config);
 
 // Column routes
-$app->router->get('/columns', [ColumnController::class, 'getColumns']);
-$app->router->get('/columns/{id}', [ColumnController::class, 'getColumnById']);
-$app->router->post('/columns', [new ColumnController(), 'addColumn']);
+$app->router->get('/columns/{id}', [new ColumnController(), 'getColumnById']);
+$app->router->get('/columns', [new ColumnController(), 'getColumns']);
 $app->router->post('/columns/{id}', [new ColumnController(), 'updateColumn']);
+$app->router->post('/columns', [new ColumnController(), 'addColumn']);
 $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 
 // Auth routes
