@@ -60,6 +60,9 @@ const Column = (props: IColumnProps) => {
 									</div>
 								</form>
 							</div>
+							<div className={"column__body"}>
+								<Card/>
+							</div>
 							<div className={"column__addnew"}>
 								<div>
 									<PlusOutlined/>
@@ -70,7 +73,6 @@ const Column = (props: IColumnProps) => {
 					)
 				})
 			}
-			<Card/>
 		</div>
 	)
 }
