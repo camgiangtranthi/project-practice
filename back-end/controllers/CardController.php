@@ -32,8 +32,28 @@ class CardController extends ApiController
 
         $cardModel = new CardModel();
 
-        $body = $request->getBody();
-        $card = $cardModel->findOne(['id' => $body['id']]);
+        $id = $request->getRouteParams()['id'];
+        $card = $cardModel->findOne(['id' => $id]);
+
+        if ($card === false) {
+            return $this->respondNotFound($response, 'Card not found');
+        }
+
+        return $this->respondWithData($response, $card);
+    }
+
+    public function getCardByColumnId(Request $request)
+    {
+        $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
+
+        $cardModel = new CardModel();
+
+        $id = $request->getRouteParams()['id'];
+        $card = $cardModel->findOne(['column_id' => $id]);
 
         if ($card === false) {
             return $this->respondNotFound($response, 'Card not found');
