@@ -18,6 +18,11 @@
     }
 
     .card__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+
       .card__button-add {
         background: var(--primary);
         color: var(--white);

@@ -53,7 +53,7 @@ const Column = (props: IColumnProps) => {
 									/>
 									<AutoSave column={column}/>
 									<button className={"column__header-icon"}>
-										save
+										Save
 									</button>
 									<div className={"column__delete-icon"} onClick={() => onDeleteColumn(column.id)}>
 										<DeleteOutlined/>

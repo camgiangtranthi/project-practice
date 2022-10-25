@@ -4,7 +4,11 @@ import "./Navbar.scss";
 import PopupProfile from "../PopupProfle/PopupProfile";
 import Column from "../Column/Column";
 import columnApi from "../../api/columnApi";
+import {UserResponse} from "../../shared/models/user";
 
+interface INavbarProps {
+	userResponse: UserResponse;
+}
 
 const Navbar = () => {
 	const [isPopupProfile, setIsPopupProfile] = useState(false);
@@ -78,13 +82,15 @@ const Navbar = () => {
 					<button className={"btn__create"} onClick={addColumn}>Create column</button>
 				</div>
 				<div className={"nav__profile"}>
-          <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
-            <img
-	            className={"profile__avatar"}
-            />
-          </span>
+				  <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
+					<img
+						className={"profile__avatar"}
+					/>
+				  </span>
 					{isPopupProfile && (
-						<PopupProfile/>
+						<PopupProfile userResponse={JSON.parse(
+							localStorage.getItem("current_user") || ""
+						)}/>
 					)}
 				</div>
 			</div>
