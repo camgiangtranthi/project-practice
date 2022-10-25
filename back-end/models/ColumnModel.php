@@ -46,10 +46,4 @@ class ColumnModel extends Abstraction
         $statement->execute();
         return $statement->fetchColumn();
     }
-
-    public function update($id)
-    {
-        $this->id = $id;
-        return parent::update($id);
-    }
 }
