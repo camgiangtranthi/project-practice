@@ -43,14 +43,14 @@ const Column = (props: IColumnProps) => {
 						<div className={"column__container"} key={id}>
 							<div className={"column__header"}>
 								<form onSubmit={() => onUpdateColumn(column.id)}>
-									<input
-										type="text"
+									<textarea
 										className={"column__title"}
 										placeholder={"Enter column title"}
 										value={column.title}
 										onChange={(e) => setColumnTitle({title: e.target.value})}
-									/>
-									<AutoSave column={column}/>
+									>
+									</textarea>
+									{/*<AutoSave column={column}/>*/}
 									<button className={"column__header-icon"}>
 										save
 									</button>

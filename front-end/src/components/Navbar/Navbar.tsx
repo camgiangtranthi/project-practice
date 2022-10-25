@@ -44,7 +44,11 @@ const Navbar = () => {
 	
 	const handleUpdateColumn = async (column: any) => {
 		const response = await columnApi.updateColumn(column.id, column);
-		const { id } = response.data;
+		const {
+			id,
+			title,
+			column_order
+		} = response.data;
 		// @ts-ignore
 		setColumns(columns.map((column) => {
 			// @ts-ignore
