@@ -1,5 +1,5 @@
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import { useState} from "react";
+import {ChangeEvent, useRef, useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
 
@@ -21,18 +21,21 @@ const Column = (props: IColumnProps) => {
 	const [columnTitle, setColumnTitle] = useState<ColumnInterface>(
 		() => ({title : window.localStorage.getItem(LOCAL_STORAGE_KEY) || ""})
 	);
+
+	const titleInputRef = useRef<HTMLInputElement>(null);
+
+	const resetColumnTitle = () => {
+		titleInputRef.current?.focus();
+	}
 	
 	const onDeleteColumn = (id: any) => {
 		props.handleDeleteColumn(id);
-		console.log(id);
 	}
-	
-	const onUpdateColumn = (e: any) => {
-		e.preventDefault();
-		if (columnTitle.title === "") return;
-		props.handleUpdateColumn(columnTitle);
-		setColumnTitle({title: ""});
-	};
+
+	const onUpdateColumn = () => {
+		// @ts-ignore
+		console.log(titleInputRef.current?.value);
+	}
 	
 	return (
 		<div className={"column"}>
@@ -42,19 +45,16 @@ const Column = (props: IColumnProps) => {
 					return (
 						<div className={"column__container"} key={id}>
 							<div className={"column__header"}>
-								<form onSubmit={() => onUpdateColumn(column.id)}>
+
 									<textarea
+										ref={resetColumnTitle}
 										className={"column__title"}
 										placeholder={"Enter column title"}
-										value={column.title}
-										onChange={(e) => setColumnTitle({title: e.target.value})}
 									>
 									</textarea>
-									{/*<AutoSave column={column}/>*/}
-									<button className={"column__header-icon"}>
-										save
+									<button onClick={onUpdateColumn} className={"column__header-icon"}>
+										Save
 									</button>
-								</form>
 							</div>
 							<div className={"column__addnew"}>
 								<div>
@@ -74,3 +74,7 @@ const Column = (props: IColumnProps) => {
 }
 
 export default Column;
+
+function onUpdateColumn(id: string): void {
+    throw new Error("Function not implemented.");
+}

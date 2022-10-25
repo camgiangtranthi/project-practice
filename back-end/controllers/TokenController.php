@@ -21,8 +21,8 @@ class TokenController
     public static function verifyToken($token)
     {
         $key = $_ENV['JWT_SECRET'];
+        $token = str_replace('Bearer ', '', $token);
         try {
-            $token = explode(' ', $token)[1];
             return JWT::decode($token, new Key($key, 'HS256'));
         } catch (\Exception $e) {
             return false;
