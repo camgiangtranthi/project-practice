@@ -61,6 +61,6 @@ class CardController extends ApiController
             return $this->respondUnprocessableEntity($response, 'Card could not be saved');
         }
 
-        return $this->respondWithData($response, $cardModel);
+        return $this->respondSuccess($response, 'Card added successfully');
     }
 }

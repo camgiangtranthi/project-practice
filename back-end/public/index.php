@@ -37,7 +37,7 @@ $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 // Card routes
 $app->router->get('/cards', [new CardController(), 'getCards']);
 $app->router->get('/cards/{id}', [new CardController(), 'getCardById']);
-$app->router->post('/cards/{id}', [new CardController(), 'addCard']);
+$app->router->post('/cards', [new CardController(), 'addCard']);
 
 // Auth routes
 $app->router->post('/sign-up', [new AuthController(), 'signUp']);
