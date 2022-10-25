@@ -1,10 +1,9 @@
 import {useState, useEffect } from "react";
 import {Link} from "react-router-dom";
-import {v4 as uuid} from 'uuid';
 import "./Navbar.scss";
 import PopupProfile from "../PopupProfle/PopupProfile";
 import Column from "../Column/Column";
-import {api} from "../../api/column";
+import columnApi from "../../api/columnApi";
 
 
 const Navbar = () => {
@@ -14,7 +13,7 @@ const Navbar = () => {
 	const [columns, setColumns] = useState([]);
 	
 	const retrieveColumns = async () => {
-		const response = await api.get("/columns");
+		const response = await columnApi.getColumns();
 		return response.data;
 	};
 	
@@ -25,11 +24,10 @@ const Navbar = () => {
 	// @ts-ignore
 	const addColumnHandler = async (column) => {
 		const request = {
-			id: uuid(),
 			...column,
 		};
-		
-		const response = await api.post("/columns", request);
+
+		const response = await columnApi.createColumn(request);
 		const {id, title} = response.data;
 		// @ts-ignore
 		setColumns([...columns, response.data]);
@@ -37,7 +35,7 @@ const Navbar = () => {
 	};
 	
 	const handleDeleteColumn = async (id: any) => {
-		await api.delete(`/columns/${id}`);
+		await columnApi.deleteColumn(id);
 		// @ts-ignore
 		const newColumns = columns.filter((column) => column.id !== id);
 		// @ts-ignore
@@ -45,7 +43,7 @@ const Navbar = () => {
 	}
 	
 	const handleUpdateColumn = async (column: any) => {
-		const response = await api.put(`/columns/${column.id}`, column);
+		const response = await columnApi.updateColumn(column.id, column);
 		const { id } = response.data;
 		// @ts-ignore
 		setColumns(columns.map((column) => {
@@ -57,7 +55,9 @@ const Navbar = () => {
 	useEffect(() => {
 		const getAllColumns = async () => {
 			const allColumns = await retrieveColumns();
-			if (allColumns) setColumns(allColumns);
+			if (allColumns) { // @ts-ignore
+				setColumns(allColumns);
+			}
 		}
 		
 		getAllColumns();

@@ -28,7 +28,6 @@ const Column = (props: IColumnProps) => {
 	}
 	
 	const onUpdateColumn = (e: any) => {
-		
 		e.preventDefault();
 		if (columnTitle.title === "") return;
 		props.handleUpdateColumn(columnTitle);
@@ -48,7 +47,7 @@ const Column = (props: IColumnProps) => {
 										type="text"
 										className={"column__title"}
 										placeholder={"Enter column title"}
-										value={columnTitle.title}
+										value={column.title}
 										onChange={(e) => setColumnTitle({title: e.target.value})}
 									/>
 									<AutoSave column={column}/>

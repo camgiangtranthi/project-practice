@@ -1,11 +1,11 @@
 import {useCallback, useEffect} from "react";
 
-import {LOCAL_STORAGE_KEY, Column } from "../Column/Column";
+import {LOCAL_STORAGE_KEY, ColumnInterface } from "../Column/Column";
 
 const DEBOUNCE_DELAY = 2000;
 
 interface AutoSaveProps {
-	column: Column;
+	column: ColumnInterface;
 	// onSave: (column: React.SetStateAction<Column>) => void;
 }
 
