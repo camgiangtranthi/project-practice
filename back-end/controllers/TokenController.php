@@ -22,6 +22,7 @@ class TokenController
     {
         $key = $_ENV['JWT_SECRET'];
         try {
+            $token = explode(' ', $token)[1];
             return JWT::decode($token, new Key($key, 'HS256'));
         } catch (\Exception $e) {
             return false;
