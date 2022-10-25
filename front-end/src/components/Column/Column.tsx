@@ -2,6 +2,7 @@ import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import { useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
+import Card from "../Card/Card";
 
 import AutoSave from "../AutoSave/AutoSave";
 
@@ -54,6 +55,9 @@ const Column = (props: IColumnProps) => {
 									<button className={"column__header-icon"}>
 										save
 									</button>
+									<div className={"column__delete-icon"} onClick={() => onDeleteColumn(column.id)}>
+										<DeleteOutlined/>
+									</div>
 								</form>
 							</div>
 							<div className={"column__addnew"}>
@@ -61,14 +65,12 @@ const Column = (props: IColumnProps) => {
 									<PlusOutlined/>
 									<button className={"btn__add-task"}>Add a card</button>
 								</div>
-								<div className={"column__delete-icon"} onClick={() => onDeleteColumn(column.id)}>
-									<DeleteOutlined/>
-								</div>
 							</div>
 						</div>
 					)
 				})
 			}
+			<Card/>
 		</div>
 	)
 }
