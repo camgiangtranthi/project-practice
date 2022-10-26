@@ -4,7 +4,11 @@ import "./Navbar.scss";
 import PopupProfile from "../PopupProfle/PopupProfile";
 import Column from "../Column/Column";
 import columnApi from "../../api/columnApi";
+import {UserResponse} from "../../shared/models/user";
 
+interface INavbarProps {
+	userResponse: UserResponse;
+}
 
 const Navbar = () => {
 	const [isPopupProfile, setIsPopupProfile] = useState(false);
@@ -26,7 +30,7 @@ const Navbar = () => {
 		const request = {
 			...column,
 		};
-		
+
 		const response = await columnApi.createColumn(request);
 		const {id, title} = response.data;
 		// @ts-ignore
@@ -34,7 +38,7 @@ const Navbar = () => {
 		setColumn({id, title});
 	};
 	
-	const handleDeleteColumn = async (id: any) => {
+	const handleDeleteColumn = async (id: string) => {
 		await columnApi.deleteColumn(id);
 		// @ts-ignore
 		const newColumns = columns.filter((column) => column.id !== id);
@@ -42,7 +46,7 @@ const Navbar = () => {
 		setColumns(newColumns);
 	}
 	
-	const handleUpdateColumn = async (columnId: any, title: string) => {
+	const handleUpdateColumn = async (columnId: string, title: string) => {
 		const response = await columnApi.updateColumn(columnId, {id: columnId, title: title});
 		try {
 			// @ts-ignore
@@ -61,7 +65,6 @@ const Navbar = () => {
 		}
 	}
 
-	
 	useEffect(() => {
 		const getAllColumns = async () => {
 			const allColumns = await retrieveColumns();
