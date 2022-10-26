@@ -22,7 +22,10 @@ const Column = (props: IColumnProps) => {
 	// @ts-ignore
 	const [card, setCard] = useState<Card>("");
 	const [cards, setCards] = useState([]);
+	const [refreshData, setRefreshData] = useState(false);
 
+	const onRefreshData = () => setRefreshData(!refreshData);
+	
 	const resetColumnTitle = () => {
 		titleInputRef.current?.focus();
 	}
@@ -42,28 +45,34 @@ const Column = (props: IColumnProps) => {
 
 	const handleAddCardByColumnId = async (columnid: string) => {
 		// @ts-ignore
-		const response = await cardApi.createCardByColumnId({title: card}, columnid);
-		const {id, title} = response.data;
+		const request = {
+			...card,
+		};
+
+		const response = await cardApi.createCardByColumnId(request, columnid);
+		const { id, title } = response.data.card;
+		
+		onRefreshData()
 		// @ts-ignore
-		setCards([...cards, response.data]);
+		setCards([...cards, response.data.card]);
 		setCard({id, title});
 	}
-
+	
 	useEffect(() => {
-		const getCardByColumnId = async () => {
-			const cards = await retrieveCards();
-			const cardByColumnId = cards.filter((card: any) => card.columnId === props.columnTitle);
+		const getCards = async () => {
+			const initialCards = await retrieveCards();
 			// @ts-ignore
-			setCards(cardByColumnId);
+			setCards(initialCards);
 		}
-		getCardByColumnId();
-	}, []);
+		getCards();
+	}, [refreshData]);
 	
 	return (
 		<div className={"column"}>
 			{
 				props.columns.map((column, id) => {
 					// @ts-ignore
+					console.log({column});
 					return (
 						<div className={"column__container"} key={id}>
 							<div className={"column__header"}>
@@ -81,16 +90,16 @@ const Column = (props: IColumnProps) => {
 									<DeleteOutlined/>
 								</div>
 							</div>
-							<div className={"column__body"}>
-								<Card
-									cards={cards}
-									columnId={column.id}
-								/>
-							</div>
-							<div className={"column__addnew"}>
+									<div className={"column__body"}>
+										<Card
+											cards={cards}
+											columnId={column.id}
+										/>
+									</div>
+							<div className={"column__addnew"} onClick={() => handleAddCardByColumnId(column.id)} >
 								<div>
 									<PlusOutlined/>
-									<button onClick={() => handleAddCardByColumnId(column.id)} className={"btn__add-task"}>Add a card</button>
+									<button className={"btn__add-task"}>Add a card</button>
 								</div>
 							</div>
 						</div>
