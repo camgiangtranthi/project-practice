@@ -32,8 +32,8 @@ class ColumnController extends ApiController
 
         $columnModel = new ColumnModel();
 
-        $body = $request->getBody();
-        $column = $columnModel->findOne(['id' => $body['id']]);
+        $id = $request->getRouteParams()['id'];
+        $column = $columnModel->findOne(['id' => $id]);
 
         if ($column === false) {
             return $this->respondNotFound($response, 'Column not found');
@@ -89,6 +89,7 @@ class ColumnController extends ApiController
         if (!$columnModel->update($id)) {
             return $this->respondError($response, 'Column not updated');
         }
+
         return $this->respondWithData($response, $columnModel->findOne(['id' => $id]));
     }
 
