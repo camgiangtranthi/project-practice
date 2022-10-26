@@ -38,7 +38,7 @@ const Navbar = () => {
 		setColumn({id, title});
 	};
 	
-	const handleDeleteColumn = async (id: any) => {
+	const handleDeleteColumn = async (id: string) => {
 		await columnApi.deleteColumn(id);
 		// @ts-ignore
 		const newColumns = columns.filter((column) => column.id !== id);
@@ -46,7 +46,7 @@ const Navbar = () => {
 		setColumns(newColumns);
 	}
 	
-	const handleUpdateColumn = async (columnId: any, title: string) => {
+	const handleUpdateColumn = async (columnId: string, title: string) => {
 		const response = await columnApi.updateColumn(columnId, {id: columnId, title: title});
 		try {
 			// @ts-ignore

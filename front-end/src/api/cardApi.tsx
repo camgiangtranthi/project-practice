@@ -13,8 +13,12 @@ const cardApi = {
     getCardByColumnId: (columnId: string) => {
         return AxiosClient.get<cardInfoResponse>(`/cards/column/${columnId}`);
     },
+    
+    createCardByColumnId: (request: cardCreateRequest, columnId: string) => {
+        return AxiosClient.post<cardInfoResponse>(`/cards/${columnId}`, request);
+    },
 
-    createCard: (data: cardCreateRequest) => {
+    createCard: (data: {}, p: string) => {
         return AxiosClient.post<cardInfoResponse>("/cards", data);
     }
 }
