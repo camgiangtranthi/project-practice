@@ -50,12 +50,9 @@ const Column = (props: IColumnProps) => {
 		};
 
 		const response = await cardApi.createCardByColumnId(request, columnid);
-		const { id, title } = response.data.card;
+		const { id, title } = response.data;
 		
-		onRefreshData()
-		// @ts-ignore
-		setCards([...cards, response.data.card]);
-		setCard({id, title});
+		onRefreshData();
 	}
 	
 	useEffect(() => {
@@ -72,7 +69,6 @@ const Column = (props: IColumnProps) => {
 			{
 				props.columns.map((column, id) => {
 					// @ts-ignore
-					console.log({column});
 					return (
 						<div className={"column__container"} key={id}>
 							<div className={"column__header"}>
