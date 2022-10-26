@@ -13,8 +13,6 @@ const Card = (props: ICardProps) => {
 		console.log("delete card");
 	}
 	
-	console.log({cards: props.cards});
-	
 	return (
 		<>
 			{
