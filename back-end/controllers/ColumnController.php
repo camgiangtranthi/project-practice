@@ -64,7 +64,7 @@ class ColumnController extends ApiController
         }
 
         unset($newColumn->errors);
-        return $this->respondWithData($response, [$newColumn]);
+        return $this->respondWithData($response, ['column' => $newColumn]);
     }
 
     public function updateColumn(Request $request)

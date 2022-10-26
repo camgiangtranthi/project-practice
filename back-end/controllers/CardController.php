@@ -84,7 +84,7 @@ class CardController extends ApiController
         }
 
         unset($newCard->errors);
-        return $this->respondWithData($response, [$newCard]);
+        return $this->respondWithData($response, ['card' => $newCard]);
     }
 
     public function updateCard(Request $request)
