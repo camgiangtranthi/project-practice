@@ -62,6 +62,7 @@ class CardController extends ApiController
         return $this->respondWithData($response, $card);
     }
 
+
     public function addCard(Request $request)
     {
         $response = new Response();
@@ -96,7 +97,8 @@ class CardController extends ApiController
 
         $cardModel = new CardModel();
         $column_id = $request->getRouteParams()['id'];
-        $data = $request->getBody();
+        $cardModel->loadData($request->getBody());
+        $cardModel->column_id = $column_id;
         $data['column_id'] = $column_id;
         $cardModel->loadData($data);
 

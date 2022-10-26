@@ -14,10 +14,12 @@ const Card = (props: ICardProps) => {
 		props.handleDeleteCard(id);
 	}
 	
+	console.log({cards: props.cards});
+	
 	return (
 		<>
 			{
-				props.cards.map((card, id) => {
+				props.cards.filter((item) => item.column_id === props.columnId).map((card, id) => {
 					return (
 						<div className={"card__container"} key={id}>
 							<form className={"card"}>
