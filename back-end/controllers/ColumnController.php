@@ -89,8 +89,7 @@ class ColumnController extends ApiController
         if (!$columnModel->update($id)) {
             return $this->respondError($response, 'Column not updated');
         }
-
-        return $this->respondCreated($response, 'Column updated successfully');
+        return $this->respondWithData($response, $columnModel->findOne(['id' => $id]));
     }
 
     public function deleteColumn(Request $request)

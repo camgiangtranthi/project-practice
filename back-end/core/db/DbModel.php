@@ -82,10 +82,19 @@ abstract class DbModel extends Model
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
-        $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-        $statement = self::prepare("UPDATE $tableName SET " . implode(',', $params) . " WHERE id = $id");
+        $setValueString = '';
         foreach ($attributes as $attribute) {
-            $statement->bindValue(":$attribute", $this->{$attribute});
+            if (isset($this->{$attribute}) && $this->{$attribute} !== 0) {
+                $setValueString .= "$attribute = :$attribute, ";
+            }
+        }
+        $setValueString = substr($setValueString, 0, strlen($setValueString) - 2);
+        $sql = "UPDATE $tableName SET $setValueString WHERE id = $id";
+        $statement = self::prepare($sql);
+        foreach ($attributes as $attribute) {
+            if (isset($this->{$attribute}) && $this->{$attribute} !== 0) {
+                $statement->bindParam(":$attribute", $this->{$attribute});
+            }
         }
         $statement->execute();
         return true;
