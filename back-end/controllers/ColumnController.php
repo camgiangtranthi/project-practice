@@ -63,7 +63,6 @@ class ColumnController extends ApiController
             return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
 
-        unset($newColumn->errors);
         return $this->respondWithData($response, ['column' => $newColumn]);
     }
 

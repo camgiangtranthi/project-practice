@@ -83,7 +83,33 @@ class CardController extends ApiController
             return $this->respondUnprocessableEntity($response, 'Card not created');
         }
 
-        unset($newCard->errors);
+        return $this->respondWithData($response, ['card' => $newCard]);
+    }
+
+    public function addCardByColumnId(Request $request)
+    {
+        $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
+
+        $cardModel = new CardModel();
+        $column_id = $request->getRouteParams()['id'];
+        $data = $request->getBody();
+        $data['column_id'] = $column_id;
+        $cardModel->loadData($data);
+
+        if (!$cardModel->validate()) {
+            return $this->respondUnprocessableEntity($response, $cardModel->errors);
+        }
+
+        $newCard = $cardModel->save();
+
+        if (!$newCard) {
+            return $this->respondUnprocessableEntity($response, 'Card not created');
+        }
+
         return $this->respondWithData($response, ['card' => $newCard]);
     }
 
