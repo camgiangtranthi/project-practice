@@ -57,11 +57,14 @@ class ColumnController extends ApiController
             return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
 
-        if (!$columnModel->save()) {
-            return $this->respondError($response, 'Column could not be added');
+        $newColumn = $columnModel->save();
+
+        if (!$newColumn) {
+            return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
 
-        return $this->respondCreated($response, 'Column added successfully');
+        unset($newColumn->errors);
+        return $this->respondWithData($response, [$newColumn]);
     }
 
     public function updateColumn(Request $request)
@@ -77,7 +80,7 @@ class ColumnController extends ApiController
         $id = $request->getRouteParam('id');
         $column = $columnModel->findOne(['id' => $id]);
 
-        if (!$column) {
+        if ($column === []) {
             return $this->respondNotFound($response, 'Column not found');
         }
 
@@ -86,11 +89,7 @@ class ColumnController extends ApiController
             return $this->respondUnprocessableEntity($response, $columnModel->errors);
         }
 
-        if (!$columnModel->update($id)) {
-            return $this->respondError($response, 'Column not updated');
-        }
-
-        return $this->respondWithData($response, $columnModel->findOne(['id' => $id]));
+        return $this->respondWithData($response, $columnModel->update($id));
     }
 
     public function deleteColumn(Request $request)

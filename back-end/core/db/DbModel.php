@@ -14,25 +14,37 @@ abstract class DbModel extends Model
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
+
         $params = array_map(fn($attr) => ":$attr", $attributes);
+
         $statement = self::prepare("INSERT INTO $tableName (" . implode(',', $attributes) . ") VALUES (" . implode(',', $params) . ")");
+
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
+
         }
+
         $statement->execute();
-        return true;
+
+        $newId = Application::$app->db->pdo->lastInsertId();
+        return $this->findOne(['id' => $newId]);
     }
 
     public function findOne($where)
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
+
         $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+
         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+
         foreach ($where as $key => $item) {
             $statement->bindValue(":$key", $item);
         }
+
         $statement->execute();
+
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -40,41 +52,28 @@ abstract class DbModel extends Model
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
-        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
-        foreach ($where as $key => $item) {
-            $statement->bindValue(":$key", $item);
-        }
-        $statement->execute();
-        return $statement->fetchObject(static::class);
-    }
 
-    public function findOneExcept($where, $except)
-    {
-        $tableName = static::tableName();
-        $attributes = array_keys($where);
         $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+
         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+
         foreach ($where as $key => $item) {
             $statement->bindValue(":$key", $item);
         }
+
         $statement->execute();
-        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        foreach ($result as $key => $value) {
-            foreach ($value as $k => $v) {
-                if (in_array($k, $except)) {
-                    unset($result[$key][$k]);
-                }
-            }
-        }
-        return $result;
+
+        return $statement->fetchObject(static::class);
     }
 
     public function findAll()
     {
         $tableName = $this->tableName();
+
         $statement = self::prepare("SELECT * FROM $tableName");
+
         $statement->execute();
+
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -82,29 +81,42 @@ abstract class DbModel extends Model
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
+
         $setValueString = '';
+
         foreach ($attributes as $attribute) {
             if (isset($this->{$attribute}) && $this->{$attribute} !== 0) {
                 $setValueString .= "$attribute = :$attribute, ";
             }
         }
+
         $setValueString = substr($setValueString, 0, strlen($setValueString) - 2);
+
         $sql = "UPDATE $tableName SET $setValueString WHERE id = $id";
+
         $statement = self::prepare($sql);
+
         foreach ($attributes as $attribute) {
             if (isset($this->{$attribute}) && $this->{$attribute} !== 0) {
                 $statement->bindParam(":$attribute", $this->{$attribute});
             }
+
         }
+
         $statement->execute();
-        return true;
+
+        return $this->findOne(['id' => $id]);
     }
+
 
     public function delete($id)
     {
         $tableName = $this->tableName();
+
         $statement = self::prepare("DELETE FROM $tableName WHERE id = $id");
+
         $statement->execute();
+
         return true;
     }
 

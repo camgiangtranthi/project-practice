@@ -9,6 +9,7 @@ class ColumnModel extends Abstraction
     public int $id = 0;
     public string $title = '';
     public int $column_order = 0;
+    private string $relatedTable = 'cards';
 
     public function rules(): array
     {
@@ -45,5 +46,14 @@ class ColumnModel extends Abstraction
         $statement = $this->prepare("SELECT MAX(`column_order`) FROM {$this->tableName()}");
         $statement->execute();
         return $statement->fetchColumn();
+    }
+
+    // On cascade delete
+    public function delete($id)
+    {
+        $statement = $this->prepare("DELETE FROM $this->relatedTable WHERE column_id = :id");
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return parent::delete($id);
     }
 }
