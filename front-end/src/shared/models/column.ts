@@ -1,8 +1,7 @@
 export interface column {
     id: string;
     title: string;
-    order: number;
-    onSave?: any,
+    column_order: number;
 }
 
 export interface columnInfoResponse extends column {

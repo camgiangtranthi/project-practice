@@ -8,36 +8,36 @@ interface IProfileProps {
   userResponse: UserResponse;
 }
 
-const PopupProfile = (props: IProfileProps) => {
+const PopupProfile = () => {
   const currentUserContext = useContext(UserContext);
 
   const handleLogout = () => {
     localStorage.removeItem("current_user");
     currentUserContext?.setUserResponse(
-        JSON.parse(localStorage.getItem("current_user") || "")
+      JSON.parse(localStorage.getItem("current_user") || "")
     );
   };
 
   return (
-      <div className={"profile"}>
-        <div className={"profile__container"}>
-          <div className={"profile__account"}>
-            <p>Account</p>
-          </div>
-          <div className={"profile__details"}>
-            <img
-                className={"profile__avatar"}
-                src={props.userResponse.user.avatar}
-            />
-            <div className={"profile__username"}>
-              {props.userResponse.user.username}
-            </div>
-          </div>
-          <div className={"profile__button"} onClick={handleLogout}>
-            <Link to={"/signin"}>Log out</Link>
+    <div className={"profile"}>
+      <div className={"profile__container"}>
+        <div className={"profile__account"}>
+          <p>Account</p>
+        </div>
+        <div className={"profile__details"}>
+          <img
+            className={"profile__avatar"}
+            // src={props.userResponse.user.avatar}
+          />
+          <div className={"profile__username"}>
+            {/*{props.userResponse.user.username}*/}
           </div>
         </div>
+        <div className={"profile__button"} onClick={handleLogout}>
+          <Link to={"/signin"}>Log out</Link>
+        </div>
       </div>
+    </div>
   );
 };
 

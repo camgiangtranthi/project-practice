@@ -9,12 +9,12 @@ class CardModel extends Abstraction
     public int $id = 0;
     public string $title = '';
     public string $description = '';
-    public int $column_id = 0;
+    public int $column_id = 1;
     public int $card_order = 0;
     public string $start_date = '';
     public string $due_date = '';
     public string $attachment = '';
-    public bool $status = false;
+    public bool $status = true;
 
     public function getDisplayName(): string
     {
@@ -25,7 +25,7 @@ class CardModel extends Abstraction
     {
         return [
             'title' => [self::RULE_REQUIRED, [self::RULE_MAX, 'max' => 100], self::LETTERS_SPACES_AND_NUMBERS],
-            'description' => [self::RULE_MAX, 'max' => 1000],
+            'description' => [[self::RULE_MAX, 'max' => 1000]],
             'column_id' => [self::RULE_REQUIRED, self::RULE_INTEGER],
             'card_order' => [self::RULE_INTEGER],
         ];

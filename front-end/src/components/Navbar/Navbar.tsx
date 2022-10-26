@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react";
+import {useState, useEffect, ChangeEvent} from "react";
 import {Link} from "react-router-dom";
 import "./Navbar.scss";
 import PopupProfile from "../PopupProfle/PopupProfile";
@@ -13,7 +13,7 @@ interface INavbarProps {
 const Navbar = () => {
 	const [isPopupProfile, setIsPopupProfile] = useState(false);
 	// @ts-ignore
-	const [column, setColumn] = useState<Column>({title: ""});
+	const [column, setColumn] = useState<Column>("");
 	const [columns, setColumns] = useState([]);
 	
 	const retrieveColumns = async () => {
@@ -46,16 +46,25 @@ const Navbar = () => {
 		setColumns(newColumns);
 	}
 	
-	const handleUpdateColumn = async (column: any) => {
-		const response = await columnApi.updateColumn(column.id, column);
-		const { id } = response.data;
-		// @ts-ignore
-		setColumns(columns.map((column) => {
+	const handleUpdateColumn = async (columnId: any, title: string) => {
+		const response = await columnApi.updateColumn(columnId, {id: columnId, title: title});
+		try {
 			// @ts-ignore
-			return column.id === id ? { ...response.data } : column;
-		}));
+			const newColumns = columns.map((column) => {
+				// @ts-ignore
+				if (column.id === columnId) {
+					// @ts-ignore
+					return {...response.data[0]};
+				}
+				return column;
+			});
+			// @ts-ignore
+			setColumns(newColumns);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
-	
+
 	useEffect(() => {
 		const getAllColumns = async () => {
 			const allColumns = await retrieveColumns();
@@ -73,34 +82,35 @@ const Navbar = () => {
 	}
 	
 	return (
-		<nav>
-			<div className={"nav__header"}>
-				<div className={"nav__content"}>
-					<Link to="/">
-						<img src="/logo.webp" alt="logo"/>
-					</Link>
-					<button className={"btn__create"} onClick={addColumn}>Create column</button>
+		<>
+			<nav>
+				<div className={"nav__header"}>
+					<div className={"nav__content"}>
+						<Link to="/">
+							<img src="/logo.webp" alt="logo"/>
+						</Link>
+						<button className={"btn__create"} onClick={addColumn}>Create column</button>
+					</div>
+					<div className={"nav__profile"}>
+		          <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
+			            <img
+				            className={"profile__avatar"}
+			            />
+		          </span>
+						{isPopupProfile && (
+							<PopupProfile/>
+						)}
+					</div>
 				</div>
-				<div className={"nav__profile"}>
-				  <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
-					<img
-						className={"profile__avatar"}
-					/>
-				  </span>
-					{isPopupProfile && (
-						<PopupProfile userResponse={JSON.parse(
-							localStorage.getItem("current_user") || ""
-						)}/>
-					)}
-				</div>
-			</div>
+			</nav>
 			<Column
+				columnTitle={column}
 				columns={columns}
 				addColumn={addColumn}
 				handleDeleteColumn={handleDeleteColumn}
 				handleUpdateColumn={handleUpdateColumn}
 			/>
-		</nav>
+		</>
 	);
 };
 

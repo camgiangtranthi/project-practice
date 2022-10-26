@@ -32,8 +32,8 @@ class ColumnController extends ApiController
 
         $columnModel = new ColumnModel();
 
-        $body = $request->getBody();
-        $column = $columnModel->findOne(['id' => $body['id']]);
+        $id = $request->getRouteParams()['id'];
+        $column = $columnModel->findOne(['id' => $id]);
 
         if ($column === false) {
             return $this->respondNotFound($response, 'Column not found');
@@ -90,7 +90,7 @@ class ColumnController extends ApiController
             return $this->respondError($response, 'Column not updated');
         }
 
-        return $this->respondCreated($response, 'Column updated successfully');
+        return $this->respondWithData($response, $columnModel->findOne(['id' => $id]));
     }
 
     public function deleteColumn(Request $request)

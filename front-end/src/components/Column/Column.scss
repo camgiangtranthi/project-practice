@@ -21,18 +21,23 @@
       align-items: center;
       margin-bottom: 16px;
 
-      input {
-        color: var(--black);
-        background: var(--background-color);
-        font-size: 1.5rem;
-        font-weight: 500;
+      textarea {
+        width: 100%;
+        resize: none;
+        outline: none;
+        font-size: 1.4rem;
+        color: var(--text-color);
+        border: none;
+        border-radius: 12px;
+        padding: 12px 0 0 0;
       }
 
       .column__header-icon {
         color: var(--white);
         background: var(--primary);
-        padding: 4px 6px;
         border-radius: 5px;
+        padding: 2px 4px;
+        margin-right: 6px;
       }
     }
 
