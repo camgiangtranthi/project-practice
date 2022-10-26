@@ -28,6 +28,7 @@ const Card = (props: ICardProps) => {
 									className="card__title"
 									placeholder="Enter a title for this card..."
 									value={card.title}
+									onChange={(e) => console.log(e.target.value)}
 								/>
 								
 								<div className={"card__footer"}>
