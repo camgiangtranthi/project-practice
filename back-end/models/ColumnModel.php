@@ -13,7 +13,7 @@ class ColumnModel extends Abstraction
     public function rules(): array
     {
         return [
-            'title' => [self::RULE_REQUIRED, [self::RULE_MAX, 'max' => 100], self::LETTERS_SPACES_AND_NUMBERS],
+            'title' => [[self::RULE_MAX, 'max' => 100]],
             'column_order' => [self::RULE_INTEGER]
         ];
     }
