@@ -38,7 +38,7 @@ $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 $app->router->get('/cards/column/{id}', [new CardController(), 'getCardByColumnId']);
 $app->router->get('/cards/{id}', [new CardController(), 'getCardById']);
 $app->router->get('/cards', [new CardController(), 'getCards']);
-$app->router->post('/cards/column/{id}', [new CardController(), 'addCardByColumnId']);
+$app->router->post('/cards/columnId/{id}', [new CardController(), 'addCardByColumnId']);
 $app->router->post('/cards/{id}', [new CardController(), 'updateCard']);
 $app->router->post('/cards', [new CardController(), 'addCard']);
 $app->router->delete('/cards/{id}', [new CardController(), 'deleteCard']);
