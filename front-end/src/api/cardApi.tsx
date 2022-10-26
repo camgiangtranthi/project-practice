@@ -20,6 +20,14 @@ const cardApi = {
 
     createCard: (data: {}, p: string) => {
         return AxiosClient.post<cardInfoResponse>("/cards", data);
+    },
+
+    updateCard: (id: string, data: {}) => {
+        return AxiosClient.put<cardInfoResponse>(`/cards/${id}`, data);
+    },
+
+    deleteCard: (id: string) => {
+        return AxiosClient.delete<cardDeleteRequest>(`/cards/${id}`);
     }
 }
 

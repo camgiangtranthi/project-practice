@@ -49,6 +49,14 @@ const Column = (props: IColumnProps) => {
 		setCard({id, title});
 	}
 
+	const handleDeleteCard = async (id: string) => {
+		await cardApi.deleteCard(id);
+		// @ts-ignore
+		const newCards = cards.filter((card) => card.id !== id);
+		// @ts-ignore
+		setCards(newCards);
+	}
+
 	useEffect(() => {
 		const getCardByColumnId = async () => {
 			const cards = await retrieveCards();
@@ -85,6 +93,7 @@ const Column = (props: IColumnProps) => {
 								<Card
 									cards={cards}
 									columnId={column.id}
+									handleDeleteCard={handleDeleteCard}
 								/>
 							</div>
 							<div className={"column__addnew"}>

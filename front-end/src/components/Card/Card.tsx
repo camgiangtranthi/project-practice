@@ -6,11 +6,12 @@ import {card, cardCreateRequest} from "../../shared/models/card";
 interface ICardProps {
 	cards: cardCreateRequest[];
 	columnId: string;
+	handleDeleteCard: (id: string) => void;
 }
 
 const Card = (props: ICardProps) => {
-	const onDeleteCard = () => {
-		console.log("delete card");
+	const onDeleteCard = (id: any) => {
+		props.handleDeleteCard(id);
 	}
 	
 	return (
@@ -29,7 +30,7 @@ const Card = (props: ICardProps) => {
 								
 								<div className={"card__footer"}>
 									<button className={"card__button-add"} type="submit">Save</button>
-									<div className={"card__delete-icon"} onClick={() => onDeleteCard()}>
+									<div className={"card__delete-icon"} onClick={() => onDeleteCard(card.id)}>
 										<DeleteOutlined/>
 									</div>
 								</div>
