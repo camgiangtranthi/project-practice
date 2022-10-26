@@ -1,30 +1,40 @@
 import "./Card.scss";
 import { DeleteOutlined } from "@ant-design/icons";
+import { card, cardCreateRequest } from "../../shared/models/card";
 
 
-const Card = () => {
+interface ICardProps {
+    cards: cardCreateRequest[];
+    columnId: string;
+}
 
+const Card = (props: ICardProps) => {
     const onDeleteCard = () => {
         console.log("delete card");
     }
 
     return (
         <div className={"card__container"}>
-            <form className={"card"}>
-                <input
-                    type="text"
-                    className="card__title"
-                    placeholder="Enter a title for this card..."
-                    value="title"
-                />
+            {props.cards.map((card, id) => {
+                return (
+                    <form className={"card"}>
+                        <input
+                            type="text"
+                            className="card__title"
+                            placeholder="Enter a title for this card..."
+                            value={card.title}
+                        />
 
-                <div className={"card__footer"}>
-                    <button className={"card__button-add"} type="submit">Add</button>
-                    <div className={"card__delete-icon"} onClick={() => onDeleteCard()}>
-                        <DeleteOutlined/>
-                    </div>
-                </div>
-            </form>
+                        <div className={"card__footer"}>
+                            <button className={"card__button-add"} type="submit">Save</button>
+                            <div className={"card__delete-icon"} onClick={() => onDeleteCard()}>
+                                <DeleteOutlined/>
+                            </div>
+                        </div>
+                    </form>
+                )
+            })}
+
         </div>
     )
 }

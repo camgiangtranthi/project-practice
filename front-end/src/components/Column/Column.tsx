@@ -1,8 +1,10 @@
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {ChangeEvent, useRef, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
 import Card from "../Card/Card";
+import {card, cardCreateRequest} from "../../shared/models/card";
+import cardApi from "../../api/cardApi";
 
 
 interface IColumnProps {
@@ -14,9 +16,11 @@ interface IColumnProps {
 }
 
 const Column = (props: IColumnProps) => {
-
 	const [title,  setTitle] = useState<string>("");
 	const titleInputRef = useRef<HTMLInputElement>(null);
+	// @ts-ignore
+	const [card, setCard] = useState<Card>("");
+	const [cards, setCards] = useState([]);
 
 	const resetColumnTitle = () => {
 		titleInputRef.current?.focus();
@@ -30,6 +34,36 @@ const Column = (props: IColumnProps) => {
 		props.handleUpdateColumn(column, title);
 	}
 
+	const retrieveCards = async () => {
+		const response = await cardApi.getCards();
+		return response.data;
+	}
+
+	const handleAddCard = async (card: cardCreateRequest) => {
+		const request = {
+			...card,
+		};
+		const response = await cardApi.createCard(request);
+		// @ts-ignore
+		const {id, title, columnId} = response.data;
+		// @ts-ignore
+		setCards([...cards, response.data]);
+		setCard({id, title, columnId});
+	}
+
+	const addNewCard = () => {
+		handleAddCard(card);
+	}
+
+	useEffect(() => {
+		const getCardByColumnId = async () => {
+			const cards = await retrieveCards();
+			const cardByColumnId = cards.filter((card: any) => card.columnId === props.columnTitle);
+			// @ts-ignore
+			setCards(cardByColumnId);
+		}
+		getCardByColumnId();
+	}, []);
 	
 	return (
 		<div className={"column"}>
@@ -55,9 +89,12 @@ const Column = (props: IColumnProps) => {
 								</div>
 							</div>
 							<div className={"column__body"}>
-								<Card/>
+								<Card
+									cards={cards}
+									columnId={column.id}
+								/>
 							</div>
-							<div className={"column__addnew"}>
+							<div className={"column__addnew"} onClick={addNewCard}>
 								<div>
 									<PlusOutlined/>
 									<button className={"btn__add-task"}>Add a card</button>
@@ -72,7 +109,3 @@ const Column = (props: IColumnProps) => {
 }
 
 export default Column;
-
-function onUpdateColumn(id: string): void {
-	throw new Error("Function not implemented.");
-}
