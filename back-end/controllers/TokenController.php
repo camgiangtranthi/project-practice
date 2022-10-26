@@ -14,7 +14,7 @@ class TokenController
     public static function generateToken($payload)
     {
         $key = $_ENV['JWT_SECRET'];
-        $token = 'Bearer ' . JWT::encode($payload, $key, 'HS256');
+        $token = JWT::encode($payload, $key, 'HS256');
         return $token;
     }
 

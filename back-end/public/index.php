@@ -28,16 +28,16 @@ $config = [
 $app = new Application(dirname(__DIR__), $config);
 
 // Column routes
-$app->router->get('/columns', [new ColumnController(), 'getColumns']);
 $app->router->get('/columns/{id}', [new ColumnController(), 'getColumnById']);
-$app->router->post('/columns', [new ColumnController(), 'addColumn']);
+$app->router->get('/columns', [new ColumnController(), 'getColumns']);
 $app->router->post('/columns/{id}', [new ColumnController(), 'updateColumn']);
+$app->router->post('/columns', [new ColumnController(), 'addColumn']);
 $app->router->delete('/columns/{id}', [new ColumnController(), 'deleteColumn']);
 
 // Card routes
-$app->router->get('/cards', [new CardController(), 'getCards']);
-$app->router->get('/cards/{id}', [new CardController(), 'getCardById']);
 $app->router->get('/cards/column/{id}', [new CardController(), 'getCardByColumnId']);
+$app->router->get('/cards/{id}', [new CardController(), 'getCardById']);
+$app->router->get('/cards', [new CardController(), 'getCards']);
 $app->router->post('/cards', [new CardController(), 'addCard']);
 
 // Auth routes
