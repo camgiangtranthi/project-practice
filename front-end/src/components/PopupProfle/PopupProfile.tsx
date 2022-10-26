@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { UserResponse } from "../../shared/models/user";
 
-interface IProfileProps {
-  userResponse: UserResponse;
-}
-
-const PopupProfile = (props: IProfileProps) => {
+const PopupProfile = () => {
   const currentUserContext = useContext(UserContext);
 
   const handleLogout = () => {
@@ -27,10 +23,8 @@ const PopupProfile = (props: IProfileProps) => {
         <div className={"profile__details"}>
           <img
             className={"profile__avatar"}
-            src={props.userResponse.user.avatar}
           />
           <div className={"profile__username"}>
-            {props.userResponse.user.username}
           </div>
         </div>
         <div className={"profile__button"} onClick={handleLogout}>
