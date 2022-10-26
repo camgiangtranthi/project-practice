@@ -77,10 +77,60 @@ class CardController extends ApiController
             return $this->respondUnprocessableEntity($response, $cardModel->errors);
         }
 
-        if (!$cardModel->save()) {
-            return $this->respondUnprocessableEntity($response, 'Card could not be saved');
+        $newCard = $cardModel->save();
+
+        if (!$newCard) {
+            return $this->respondUnprocessableEntity($response, 'Card not created');
         }
 
-        return $this->respondSuccess($response, 'Card added successfully');
+        unset($newCard->errors);
+        return $this->respondWithData($response, ['card' => $newCard]);
+    }
+
+    public function updateCard(Request $request)
+    {
+        $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
+
+        $id = $request->getRouteParams()['id'];
+        $cardModel = new CardModel();
+
+        $card = $cardModel->findOne(['id' => $id]);
+        if ($card === []) {
+            return $this->respondNotFound($response, 'Card not found');
+        }
+
+        $cardModel->loadData($request->getBody());
+        if (!$cardModel->validate()) {
+            return $this->respondUnprocessableEntity($response, $cardModel->errors);
+        }
+
+        return $this->respondWithData($response, $cardModel->update($id));
+    }
+
+    public function deleteCard(Request $request)
+    {
+        $response = new Response();
+
+        if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized($response, 'Unauthorized');
+        }
+
+        $id = $request->getRouteParams()['id'];
+        $cardModel = new CardModel();
+
+        $card = $cardModel->findOne(['id' => $id]);
+        if ($card === []) {
+            return $this->respondNotFound($response, 'Card not found');
+        }
+
+        if (!$cardModel->delete($id)) {
+            return $this->respondUnprocessableEntity($response, 'Card could not be deleted');
+        }
+
+        return $this->respondSuccess($response, 'Card deleted successfully');
     }
 }

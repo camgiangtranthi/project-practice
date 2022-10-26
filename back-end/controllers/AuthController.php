@@ -25,11 +25,15 @@ class AuthController extends ApiController
             return $this->respondError($response, 'Passwords do not match');
         }
 
-        if ($userModel->validate() && $userModel->save()) {
-            return $this->respondCreated($response, 'User created successfully');
+        if (!$userModel->validate()) {
+            return $this->respondUnprocessableEntity($response, $userModel->errors);
         }
 
-        return $this->respondUnprocessableEntity($response, $userModel->errors);
+        if (!$userModel->save()) {
+            return $this->respondError($response, 'User could not be created');
+        }
+
+        return $this->respondSuccess($response, 'User created successfully');
     }
 
     public function signIn(Request $request)
