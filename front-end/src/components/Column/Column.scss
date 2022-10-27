@@ -32,6 +32,20 @@
         padding: 12px 0 0 0;
       }
 
+      .column__delete-icon {
+        svg {
+          width: 20px;
+          height: 20px;
+          fill: var(--text-color);
+          cursor: pointer;
+
+            &:hover {
+                fill: var(--primary);
+            }
+        }
+      }
+
+
       .column__header-icon {
         color: var(--white);
         background: var(--primary);
@@ -49,7 +63,7 @@
       color: #666;
       font-weight: 500;
       cursor: pointer;
-      padding: 4px 6px 4px 0;
+      padding: 12px 6px 4px 0;
       border-radius: 4px;
 
       .btn__add-task {

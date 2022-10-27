@@ -1,22 +1,32 @@
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {ChangeEvent, useRef, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
+// @ts-ignore
+import Card from "../Card/Card";
+// @ts-ignore
+import cardApi from "../../api/cardApi";
+import columnApi from "../../api/columnApi";
 
 
 interface IColumnProps {
 	columnTitle: string;
 	columns: columnCreateRequest[];
 	addColumn: (column: columnCreateRequest) => void;
-	handleDeleteColumn: (id: any) => void;
+	handleDeleteColumn: (id: string) => void;
 	handleUpdateColumn: (id: string, title: string) => void;
 }
 
 const Column = (props: IColumnProps) => {
-	
 	const [title,  setTitle] = useState<string>("");
 	const titleInputRef = useRef<HTMLInputElement>(null);
-	
+	// @ts-ignore
+	const [card, setCard] = useState<Card>("");
+	const [cards, setCards] = useState([]);
+	const [refreshData, setRefreshData] = useState(false);
+
+	const onRefreshData = () => setRefreshData(!refreshData);
+
 	const resetColumnTitle = () => {
 		titleInputRef.current?.focus();
 	}
@@ -24,11 +34,44 @@ const Column = (props: IColumnProps) => {
 	const onDeleteColumn = (id: any) => {
 		props.handleDeleteColumn(id);
 	}
-	
+
 	const onUpdateColumn = (column: any) => {
 		props.handleUpdateColumn(column, title);
 	}
-	
+
+	const retrieveCards = async () => {
+		const response = await cardApi.getCards();
+		return response.data;
+	}
+
+	const handleAddCardByColumnId = async (columnid: string) => {
+		// @ts-ignore
+		const request = {
+			...card,
+		};
+
+		const response = await cardApi.createCardByColumnId(request, columnid);
+		const { id, title } = response.data;
+
+		onRefreshData();
+	}
+
+	const handleDeleteCard = async (id: string) => {
+		await cardApi.deleteCard(id);
+		// @ts-ignore
+		const newCards = cards.filter((card) => card.id !== id);
+		// @ts-ignore
+		setCards(newCards);
+	}
+
+	useEffect(() => {
+		const getCards = async () => {
+			const initialCards = await retrieveCards();
+			// @ts-ignore
+			setCards(initialCards);
+		}
+		getCards();
+	}, [refreshData]);
 	
 	return (
 		<div className={"column"}>
@@ -38,14 +81,13 @@ const Column = (props: IColumnProps) => {
 					return (
 						<div className={"column__container"} key={id}>
 							<div className={"column__header"}>
-								<textarea
+								<input
 									ref={resetColumnTitle}
 									className={"column__title"}
 									placeholder={"Enter column title"}
 									onChange={(e) => setTitle(e.target.value)}
 									defaultValue={column.title}
-								>
-								</textarea>
+								/>
 								<button onClick={() => onUpdateColumn(column.id)} className={"column__header-icon"}>
 									Save
 								</button>
@@ -53,7 +95,14 @@ const Column = (props: IColumnProps) => {
 									<DeleteOutlined/>
 								</div>
 							</div>
-							<div className={"column__addnew"}>
+							<div className={"column__body"}>
+								<Card
+									cards={cards}
+									columnId={column.id}
+									handleDeleteCard={handleDeleteCard}
+								/>
+							</div>
+							<div className={"column__addnew"} onClick={() => handleAddCardByColumnId(column.id)}>
 								<div>
 									<PlusOutlined/>
 									<button className={"btn__add-task"}>Add a card</button>
@@ -68,7 +117,3 @@ const Column = (props: IColumnProps) => {
 }
 
 export default Column;
-
-function onUpdateColumn(id: string): void {
-	throw new Error("Function not implemented.");
-}
