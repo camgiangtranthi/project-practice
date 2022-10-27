@@ -12,7 +12,7 @@ type Inputs = {
   confirm_password: string;
 };
 
-const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
+const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d].{8,16}$/;
 
 const SignUp = () => {
   const [signUpSuccessfully, setSignUpSuccessfully] = useState<boolean>(false);
@@ -69,6 +69,9 @@ const SignUp = () => {
               },
             })}
           />
+          {errors.username && (
+              <p className="error-message">{errors.username.message}</p>
+          )}
           {errorMessage?.error && (
             <p className="error-message">{errorMessage?.error}</p>
           )}
