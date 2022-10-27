@@ -15,8 +15,6 @@ const Card = (props: ICardProps) => {
 		props.handleDeleteCard(id);
 	}
 	
-	console.log({cards: props.cards});
-	
 	return (
 		<>
 			{
