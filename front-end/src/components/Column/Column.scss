@@ -2,9 +2,8 @@
   width: 100%;
   max-width: var(--default-layout-width);
   max-height: calc(100vh - var(--default-layout-header-height));
-  margin: 6px auto;
+  margin: 12px auto;
   display: flex;
-  position: relative;
 
   .column__container {
     min-width: 250px;

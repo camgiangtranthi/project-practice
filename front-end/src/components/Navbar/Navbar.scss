@@ -1,12 +1,17 @@
 nav {
   height: 60px;
-  width: var(--default-layout-width);
-  position: relative;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   .nav__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: var(--default-layout-width);
+
 
     .nav__content {
       display: flex;
@@ -52,12 +57,6 @@ nav {
       .nav_profile-avatar {
         width: 50px;
         height: 50px;
-        background: #ccc;
-        color: var(--text-color);
-        line-height: 50px;
-        font-size: 1.2rem;
-        padding-left: 6px;
-        border-radius: 50%;
         cursor: pointer;
       }
     }

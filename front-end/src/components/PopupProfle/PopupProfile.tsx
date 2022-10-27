@@ -27,7 +27,7 @@ const PopupProfile = (props: IProfileProps) => {
         <div className={"profile__details"}>
           <img
             className={"profile__avatar"}
-            src={props.userResponse.user.avatar}
+            src="/avatar.png"
           />
           <div className={"profile__username"}>
             {props.userResponse.user.username}
