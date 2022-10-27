@@ -13,7 +13,6 @@ class CardModel extends Abstraction
     public int $card_order = 0;
     public string $start_date = '';
     public string $due_date = '';
-    public string $attachment = '';
     public bool $status = true;
 
     public function getDisplayName(): string
@@ -34,7 +33,7 @@ class CardModel extends Abstraction
 
     public function attributes(): array
     {
-        return ['id', 'title', 'description', 'column_id', 'card_order', 'start_date', 'due_date', 'attachment', 'status'];
+        return ['id', 'title', 'description', 'column_id', 'card_order', 'start_date', 'due_date', 'status'];
     }
 
     // Create order before saving

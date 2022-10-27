@@ -13,14 +13,14 @@ interface ICardProps {
 }
 
 const Card = (props: ICardProps) => {
-	const [title,  setTitle] = useState<string>("");
+	const [title, setTitle] = useState<string>("");
 	
-	const onDeleteCard = (id: string) => {
+	const onDeleteCard = (id: any) => {
 		props.handleDeleteCard(id);
 	}
 	
 	const onUpdateCard = (card: any) => {
-		props.handleUpdateCard(card, title, props.columnId);
+		props.handleUpdateCard(card, title, card.columnId);
 	}
 	
 	return (
@@ -34,7 +34,7 @@ const Card = (props: ICardProps) => {
 									type="text"
 									className="card__title"
 									placeholder="Enter a title for this card..."
-									defaultValue={card.title}
+									value={card.title}
 									onChange={(e) => setTitle(e.target.value)}
 								/>
 								
