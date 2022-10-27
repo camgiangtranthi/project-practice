@@ -1,5 +1,6 @@
 import "./Card.scss";
 import {DeleteOutlined} from "@ant-design/icons";
+// @ts-ignore
 import {card, cardCreateRequest} from "../../shared/models/card";
 
 

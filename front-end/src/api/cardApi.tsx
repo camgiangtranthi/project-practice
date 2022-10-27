@@ -16,7 +16,7 @@ const cardApi = {
     
     
     createCardByColumnId: (request: cardCreateRequest, columnId: string) => {
-        return AxiosClient.post<cardInfoResponse>(`/cards/column/${columnId}`, request);
+        return AxiosClient.post<cardInfoResponse>(`/cards/columnId/${columnId}`, request);
     },
 
     createCard: (data: {}, p: string) => {

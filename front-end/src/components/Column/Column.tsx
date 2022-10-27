@@ -2,8 +2,9 @@ import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
+// @ts-ignore
 import Card from "../Card/Card";
-import {card, cardCreateRequest} from "../../shared/models/card";
+// @ts-ignore
 import cardApi from "../../api/cardApi";
 import columnApi from "../../api/columnApi";
 
@@ -101,7 +102,7 @@ const Column = (props: IColumnProps) => {
 									handleDeleteCard={handleDeleteCard}
 								/>
 							</div>
-							<div className={"column__addnew"}>
+							<div className={"column__addnew"} onClick={() => handleAddCardByColumnId(column.id)}>
 								<div>
 									<PlusOutlined/>
 									<button className={"btn__add-task"}>Add a card</button>
