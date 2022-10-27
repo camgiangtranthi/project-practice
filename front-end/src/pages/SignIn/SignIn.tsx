@@ -64,9 +64,6 @@ const SignIn = () => {
           >
             <label htmlFor="username">Username </label>
             <input id="username" {...register("username", { required: true })} />
-            {errorMessage?.error && (
-                <span className="error-message">{errorMessage?.error}</span>
-            )}
             <label htmlFor="password">Password </label>
             <input
                 type="password"

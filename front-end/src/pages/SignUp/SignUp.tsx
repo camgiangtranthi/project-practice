@@ -12,7 +12,7 @@ type Inputs = {
   confirm_password: string;
 };
 
-const regexPassword = /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.]).*$/;
+const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
 const SignUp = () => {
   const [signUpSuccessfully, setSignUpSuccessfully] = useState<boolean>(false);
@@ -69,11 +69,8 @@ const SignUp = () => {
               },
             })}
           />
-          {errors.username && (
-            <p className="error-message">{errors.username.message}</p>
-          )}
           {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.message}</p>
+            <p className="error-message">{errorMessage?.error}</p>
           )}
           <label htmlFor="password">Password </label>
           <input
@@ -84,7 +81,7 @@ const SignUp = () => {
               pattern: {
                 value: regexPassword,
                 message:
-                  "Password must be contains at least one uppercase letter, one lowercase letter and one special character.",
+                  "Password must be contains at least one uppercase letter, one lowercase letter and between 8-16 characters.",
               },
               minLength: {
                 value: 8,
@@ -98,9 +95,6 @@ const SignUp = () => {
           />
           {errors.password && (
             <p className="error-message">{errors.password.message}</p>
-          )}
-          {errorMessage?.error && (
-            <p className="error-message">{errorMessage?.message}</p>
           )}
           <label className="signup__form-label">Confirm password</label>
           <input

@@ -92,11 +92,11 @@ const Navbar = (props: INavbarProps) => {
 						<button className={"btn__create"} onClick={addColumn}>Create column</button>
 					</div>
 					<div className={"nav__profile"}>
-		          <span className={"nav_profile-avatar"} onClick={handlePopupProfile}>
-			            <img
-				            className={"profile__avatar"}
-			            />
-		          </span>
+						<img
+							className={"nav_profile-avatar"}
+							src="/avatar.png"
+							onClick={handlePopupProfile}
+						/>
 						{isPopupProfile && (
 							<PopupProfile
 								userResponse={JSON.parse(localStorage.getItem("current_user") || "")}
