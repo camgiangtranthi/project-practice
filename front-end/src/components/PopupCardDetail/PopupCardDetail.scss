@@ -11,30 +11,34 @@
   align-items: center;
 
   .popup-card-detail__container {
-    width: 400px;
     background: var(--white);
     border-radius: 4px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
     .popup-card-detail__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
       .popup-card-detail__title {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
 
         input {
           color: var(--black);
-          font-size: 1.5rem;
-          font-weight: 400;
+          font-size: 2.4rem;
+          font-weight: 600;
           border: none;
           outline: none;
           width: 100%;
+          padding: 8px 0;
         }
+      }
 
+      .popup-card-detail__close {
         svg {
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           fill: var(--text-color);
           cursor: pointer;
 
@@ -43,38 +47,73 @@
           }
         }
       }
+    }
 
-      .popup-card-detail__footer {
+    .popup-card-detail__body {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+
+      .popup-card-detail__description {
+        margin-bottom: 30px;
+
+        input {
+          color: var(--black);
+          font-size: 1.8rem;
+          font-weight: 400;
+          border: none;
+          outline: none;
+          width: 100%;
+          resize: none;
+          padding: 8px 0;
+        }
+      }
+
+      .popup-card-detail__time {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 8px;
 
-        .popup-card-detail__button-add {
-          background: var(--primary);
-          color: var(--white);
-          font-size: 1.2rem;
-          font-weight: 500;
-          border: none;
-          outline: none;
-          border-radius: 4px;
-          padding: 4px 8px;
-          margin-right: 8px;
-          cursor: pointer;
-        }
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-        .popup-card-detail__delete-icon {
-          svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--black);
-            cursor: pointer;
-
-            &:hover {
-              fill: var(--primary);
-            }
+          input {
+            font-size: 1.8rem;
+            font-weight: 400;
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px 0;
           }
         }
+      }
+
+      .popup-card-detail__status {
+        margin-top: 20px;
+        margin-bottom: 30px;
+
+        label {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .popup-card-detail__footer {
+      margin-bottom: 20px;
+
+      button {
+        background: var(--primary);
+        color: var(--white);
+        font-size: 1.6rem;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        margin-right: 8px;
+        cursor: pointer;
       }
     }
   }

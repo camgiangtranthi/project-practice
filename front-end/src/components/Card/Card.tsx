@@ -1,9 +1,10 @@
 import "./Card.scss";
-import {DeleteOutlined, InfoOutlined} from "@ant-design/icons";
+import {CloseOutlined, DeleteOutlined, InfoOutlined} from "@ant-design/icons";
 // @ts-ignore
-import {card, cardCreateRequest} from "../../shared/models/card";
+import {card, cardCreateRequest, cardInfoResponse} from "../../shared/models/card";
 import {useState} from "react";
 import PopupCardDetail from "../PopupCardDetail/PopupCardDetail";
+import cardApi from "../../api/cardApi";
 
 
 interface ICardProps {
@@ -15,6 +16,12 @@ interface ICardProps {
 
 const Card = (props: ICardProps) => {
 	const [title, setTitle] = useState<string>("");
+	const [card, setCard] = useState("");
+	const [cards, setCards] = useState<cardInfoResponse[]>([]);
+	const [refreshData, setRefreshData] = useState(false);
+	const [detailVisible, setDetailVisible] = useState(false);
+
+	const onRefreshData = () => setRefreshData(!refreshData);
 	
 	const onDeleteCard = (id: any) => {
 		props.handleDeleteCard(id);
@@ -22,6 +29,14 @@ const Card = (props: ICardProps) => {
 	
 	const onUpdateCard = (card: any) => {
 		props.handleUpdateCard(card, title, card.columnId);
+	}
+
+	const showDetail = () => {
+		setDetailVisible(true);
+	}
+
+	const closeDetail = () => {
+		setDetailVisible(false);
 	}
 	
 	return (
@@ -40,7 +55,13 @@ const Card = (props: ICardProps) => {
 										onChange={(e) => setTitle(e.target.value)}
 									/>
 
-									<InfoOutlined />
+									<InfoOutlined
+										onClick={() => showDetail()}
+									/>
+									{detailVisible && <PopupCardDetail
+										onClose={closeDetail}
+										card={card}
+									/>}
 								</div>
 								
 								<div className={"card__footer"}>

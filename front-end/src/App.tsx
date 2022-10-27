@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { Home, SignIn, SignUp } from "./pages";
 import "./index.scss";
 import { PrivateRoute } from "./PrivateRoute";
-import PopupCardDetail from "./components/PopupCardDetail/PopupCardDetail";
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
-        <PopupCardDetail/>
     </div>
   );
 }
