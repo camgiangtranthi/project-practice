@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Request;
 use app\core\Response;
 use app\models\CardModel;
+use app\models\ColumnModel;
 
 class CardController extends ApiController
 {
@@ -72,7 +73,16 @@ class CardController extends ApiController
         }
 
         $cardModel = new CardModel();
-        $cardModel->loadData($request->getBody());
+        $data = $request->getBody();
+        $cardModel->loadData($data);
+
+        $column_id = $data['column_id'];
+        $columnModel = new ColumnModel();
+        $column = $columnModel->findOne(['id' => $column_id]);
+
+        if ($column === []) {
+            return $this->respondNotFound($response, 'Column not found');
+        }
 
         if (!$cardModel->validate()) {
             return $this->respondUnprocessableEntity($response, $cardModel->errors);
@@ -96,11 +106,19 @@ class CardController extends ApiController
         }
 
         $cardModel = new CardModel();
+        $columnModel = new ColumnModel();
+
+        $data = $request->getBody();
         $column_id = $request->getRouteParams()['id'];
-        $cardModel->loadData($request->getBody());
-        $cardModel->column_id = $column_id;
         $data['column_id'] = $column_id;
+
         $cardModel->loadData($data);
+
+        $column = $columnModel->findOne(['id' => $column_id]);
+
+        if ($column === []) {
+            return $this->respondNotFound($response, 'Column not found');
+        }
 
         if (!$cardModel->validate()) {
             return $this->respondUnprocessableEntity($response, $cardModel->errors);
