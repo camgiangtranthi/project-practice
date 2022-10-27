@@ -10,7 +10,7 @@ interface INavbarProps {
 	userResponse: UserResponse;
 }
 
-const Navbar = () => {
+const Navbar = (props: INavbarProps) => {
 	const [isPopupProfile, setIsPopupProfile] = useState(false);
 	// @ts-ignore
 	const [column, setColumn] = useState<Column>("");
@@ -98,7 +98,9 @@ const Navbar = () => {
 			            />
 		          </span>
 						{isPopupProfile && (
-							<PopupProfile/>
+							<PopupProfile
+								userResponse={JSON.parse(localStorage.getItem("current_user") || "")}
+							/>
 						)}
 					</div>
 				</div>

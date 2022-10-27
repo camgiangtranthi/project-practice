@@ -13,7 +13,9 @@ const Home = () => {
     
     return (
         <div className="home">
-            <Navbar />
+            <Navbar
+                userResponse={JSON.parse(localStorage.getItem("current_user") || "")}
+            />
         </div>
     );
 };
