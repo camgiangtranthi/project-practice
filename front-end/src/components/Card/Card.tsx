@@ -1,8 +1,9 @@
 import "./Card.scss";
-import {DeleteOutlined} from "@ant-design/icons";
+import {DeleteOutlined, InfoOutlined} from "@ant-design/icons";
 // @ts-ignore
 import {card, cardCreateRequest} from "../../shared/models/card";
 import {useState} from "react";
+import PopupCardDetail from "../PopupCardDetail/PopupCardDetail";
 
 
 interface ICardProps {
@@ -30,13 +31,17 @@ const Card = (props: ICardProps) => {
 					return (
 						<div className={"card__container"} key={id}>
 							<form className={"card"}>
-								<input
-									type="text"
-									className="card__title"
-									placeholder="Enter a title for this card..."
-									value={card.title}
-									onChange={(e) => setTitle(e.target.value)}
-								/>
+								<div className={"card__title"}>
+									<input
+										type="text"
+										className="card__title"
+										placeholder="Enter a title for this card..."
+										value={card.title}
+										onChange={(e) => setTitle(e.target.value)}
+									/>
+
+									<InfoOutlined />
+								</div>
 								
 								<div className={"card__footer"}>
 									<button className={"card__button-add"} type="submit" onClick={() => onUpdateCard(card.id)}>Save</button>
