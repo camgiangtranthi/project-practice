@@ -1,17 +1,13 @@
 nav {
   height: 60px;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   .nav__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: var(--default-layout-width);
-
 
     .nav__content {
       display: flex;

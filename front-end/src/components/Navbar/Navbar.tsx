@@ -15,6 +15,9 @@ const Navbar = (props: INavbarProps) => {
 	// @ts-ignore
 	const [column, setColumn] = useState<Column>("");
 	const [columns, setColumns] = useState([]);
+	const [refreshData, setRefreshData] = useState(false);
+
+	const onRefreshData = () => setRefreshData(!refreshData);
 	
 	const retrieveColumns = async () => {
 		const response = await columnApi.getColumns();
@@ -33,6 +36,7 @@ const Navbar = (props: INavbarProps) => {
 
 		const response = await columnApi.createColumn(request);
 		const {id, title} = response.data;
+		onRefreshData();
 		// @ts-ignore
 		setColumns([...columns, response.data]);
 		setColumn({id, title});
@@ -74,7 +78,7 @@ const Navbar = (props: INavbarProps) => {
 		}
 		
 		getAllColumns();
-	}, []);
+	}, [refreshData]);
 	
 	// @ts-ignore
 	const addColumn = () => {
