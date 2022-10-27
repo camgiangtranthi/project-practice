@@ -22,9 +22,7 @@ export interface cardResponse extends card {
 export interface cardCreateRequest {
     id: string;
     title: string;
-    description: string;
     column_id: string;
-    card: {};
 }
 
 export interface cardUpdateRequest {

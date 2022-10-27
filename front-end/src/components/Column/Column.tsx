@@ -63,6 +63,25 @@ const Column = (props: IColumnProps) => {
 		// @ts-ignore
 		setCards(newCards);
 	}
+	
+	const handleUpdateCard = async (cardId: string, title: string, columnId: string) => {
+		const response = await cardApi.updateCard(cardId, {id: cardId, title: title, column_id:  columnId});
+		try {
+			// @ts-ignore
+			const newCards = cards.map((card) => {
+				// @ts-ignore
+				if (card.id === cardId) {
+					// @ts-ignore
+					return {...response.data[0]};
+				}
+				return card;
+			});
+			// @ts-ignore
+			setCards(newCards);
+		} catch (e) {
+			return e;
+		}
+	}
 
 	useEffect(() => {
 		const getCards = async () => {
@@ -100,6 +119,7 @@ const Column = (props: IColumnProps) => {
 									cards={cards}
 									columnId={column.id}
 									handleDeleteCard={handleDeleteCard}
+									handleUpdateCard={handleUpdateCard}
 								/>
 							</div>
 							<div className={"column__addnew"} onClick={() => handleAddCardByColumnId(column.id)}>
