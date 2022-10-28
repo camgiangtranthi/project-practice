@@ -3,32 +3,26 @@
 namespace app\controllers;
 
 use app\core\Request;
-use app\core\Response;
 use app\models\CardModel;
 use app\models\ColumnModel;
 
 class CardController extends ApiController
 {
     public function getCards(Request $request)
-    {
-        $response = new Response();
-
-        if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+    {if (TokenController::authorize($request) === false) {
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $cardModel = new CardModel();
         $cards = $cardModel->findAll();
 
-        return $this->respondWithData($response, $cards);
+        return $this->respondWithData($cards);
     }
 
     public function getCardById(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $cardModel = new CardModel();
@@ -37,18 +31,16 @@ class CardController extends ApiController
         $card = $cardModel->findOne(['id' => $id]);
 
         if ($card === false) {
-            return $this->respondNotFound($response, 'Card not found');
+            return $this->respondNotFound('Card not found');
         }
 
-        return $this->respondWithData($response, $card);
+        return $this->respondWithData($card);
     }
 
     public function getCardByColumnId(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $cardModel = new CardModel();
@@ -57,19 +49,17 @@ class CardController extends ApiController
         $card = $cardModel->findOne(['column_id' => $id]);
 
         if ($card === false) {
-            return $this->respondNotFound($response, 'Card not found');
+            return $this->respondNotFound('Card not found');
         }
 
-        return $this->respondWithData($response, $card);
+        return $this->respondWithData($card);
     }
 
 
     public function addCard(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $cardModel = new CardModel();
@@ -81,28 +71,26 @@ class CardController extends ApiController
         $column = $columnModel->findOne(['id' => $column_id]);
 
         if ($column === []) {
-            return $this->respondNotFound($response, 'Column not found');
+            return $this->respondNotFound('Column not found');
         }
 
         if (!$cardModel->validate()) {
-            return $this->respondUnprocessableEntity($response, $cardModel->errors);
+            return $this->respondUnprocessableEntity($cardModel->errors);
         }
 
         $newCard = $cardModel->save();
 
         if (!$newCard) {
-            return $this->respondUnprocessableEntity($response, 'Card not created');
+            return $this->respondUnprocessableEntity('Card not created');
         }
 
-        return $this->respondWithData($response, ['card' => $newCard]);
+        return $this->respondWithData(['card' => $newCard]);
     }
 
     public function addCardByColumnId(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $cardModel = new CardModel();
@@ -117,28 +105,26 @@ class CardController extends ApiController
         $column = $columnModel->findOne(['id' => $column_id]);
 
         if ($column === []) {
-            return $this->respondNotFound($response, 'Column not found');
+            return $this->respondNotFound('Column not found');
         }
 
         if (!$cardModel->validate()) {
-            return $this->respondUnprocessableEntity($response, $cardModel->errors);
+            return $this->respondUnprocessableEntity($cardModel->errors);
         }
 
         $newCard = $cardModel->save();
 
         if (!$newCard) {
-            return $this->respondUnprocessableEntity($response, 'Card not created');
+            return $this->respondUnprocessableEntity('Card not created');
         }
 
-        return $this->respondWithData($response, ['card' => $newCard]);
+        return $this->respondWithData(['card' => $newCard]);
     }
 
     public function updateCard(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $id = $request->getRouteParams()['id'];
@@ -146,23 +132,21 @@ class CardController extends ApiController
 
         $card = $cardModel->findOne(['id' => $id]);
         if ($card === []) {
-            return $this->respondNotFound($response, 'Card not found');
+            return $this->respondNotFound('Card not found');
         }
 
         $cardModel->loadData($request->getBody());
         if (!$cardModel->validate()) {
-            return $this->respondUnprocessableEntity($response, $cardModel->errors);
+            return $this->respondUnprocessableEntity($cardModel->errors);
         }
 
-        return $this->respondWithData($response, $cardModel->update($id));
+        return $this->respondWithData($cardModel->update($id));
     }
 
     public function deleteCard(Request $request)
     {
-        $response = new Response();
-
         if (TokenController::authorize($request) === false) {
-            return $this->respondUnauthorized($response, 'Unauthorized');
+            return $this->respondUnauthorized('Unauthorized');
         }
 
         $id = $request->getRouteParams()['id'];
@@ -170,13 +154,13 @@ class CardController extends ApiController
 
         $card = $cardModel->findOne(['id' => $id]);
         if ($card === []) {
-            return $this->respondNotFound($response, 'Card not found');
+            return $this->respondNotFound('Card not found');
         }
 
         if (!$cardModel->delete($id)) {
-            return $this->respondUnprocessableEntity($response, 'Card could not be deleted');
+            return $this->respondUnprocessableEntity('Card could not be deleted');
         }
 
-        return $this->respondSuccess($response, 'Card deleted successfully');
+        return $this->respondSuccess('Card deleted successfully');
     }
 }
