@@ -9,13 +9,30 @@
   .card {
     padding: 8px 20px;
 
-    input {
-      color: var(--black);
-      font-size: 1.5rem;
-      font-weight: 400;
-      border: none;
-      outline: none;
-      width: 100%;
+    .card__title {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      input {
+        color: var(--black);
+        font-size: 1.5rem;
+        font-weight: 400;
+        border: none;
+        outline: none;
+        width: 100%;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--text-color);
+        cursor: pointer;
+
+        &:hover {
+          fill: var(--primary);
+        }
+      }
     }
 
     .card__footer {

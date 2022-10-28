@@ -2,8 +2,8 @@ export interface card {
     id: string;
     title: string;
     description: string;
-    created_at: string;
-    updated_at: string;
+    start_date: string;
+    due_date: string;
     status: boolean;
     card: any;
 }
@@ -12,6 +12,9 @@ export interface cardInfoResponse extends card {
     id: string;
     title: string;
     description: string;
+    start_date: string;
+    due_date: string;
+    status: boolean;
 }
 
 export interface cardResponse extends card {
@@ -25,9 +28,11 @@ export interface cardCreateRequest {
 }
 
 export interface cardUpdateRequest {
-    id: any;
     title: string;
     description: string;
+    start_date: string;
+    due_date: string;
+    status: boolean;
 }
 
 export interface cardDeleteRequest {

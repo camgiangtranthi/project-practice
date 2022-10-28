@@ -1,12 +1,11 @@
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {ChangeEvent, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "./Column.scss";
 import {columnCreateRequest} from "../../shared/models/column";
 // @ts-ignore
 import Card from "../Card/Card";
 // @ts-ignore
 import cardApi from "../../api/cardApi";
-import columnApi from "../../api/columnApi";
 
 
 interface IColumnProps {

@@ -1,9 +1,13 @@
 import AxiosClient from "../shared/axios-client/axiosClient";
-import { cardInfoResponse, cardCreateRequest, cardDeleteRequest } from "../shared/models/card";
+import {cardInfoResponse, cardCreateRequest, cardDeleteRequest, cardUpdateRequest} from "../shared/models/card";
 
 const cardApi = {
     getCards: () => {
         return AxiosClient.get<cardInfoResponse[]>("/cards");
+    },
+
+    getCardById: (id: string) => {
+        return AxiosClient.get<cardInfoResponse>(`/cards/${id}`);
     },
     
     createCardByColumnId: (request: cardCreateRequest, columnId: string) => {
@@ -11,6 +15,10 @@ const cardApi = {
     },
 
     updateCard: (id: string, data: cardCreateRequest) => {
+        return AxiosClient.post<cardInfoResponse>(`/cards/${id}`, {...data});
+    },
+
+    updateCardDetail: (id: string, data: cardUpdateRequest) => {
         return AxiosClient.post<cardInfoResponse>(`/cards/${id}`, {...data});
     },
 
