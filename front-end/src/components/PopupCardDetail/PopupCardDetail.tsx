@@ -1,19 +1,20 @@
 import './PopupCardDetail.scss';
 import {CloseOutlined} from "@ant-design/icons";
-import cardApi from "../../api/cardApi";
-import {cardUpdateRequest} from "../../shared/models/card";
 import {useState} from "react";
 
 interface IPopupCardDetailProps {
     onClose: () => void;
     card: any;
+    onUpdateCard: (id: string, title: string, columnId: string) => void;
 }
 
 const PopupCardDetail = (props: IPopupCardDetailProps) => {
-    const onUpdateCardDetail = (id: string, data: cardUpdateRequest) => {
-        cardApi.updateCardDetail(id, data);
+    const [title, setTitle] = useState<string>("");
+    
+    const updateCard = (card: any) => {
+        props.onUpdateCard(card.id, title, card.column_id);
     }
-
+    
     return (
         <form className="popup-card-detail">
             <div className="popup-card-detail__container">
@@ -22,7 +23,8 @@ const PopupCardDetail = (props: IPopupCardDetailProps) => {
                         <input
                             id={"title"}
                             type="text"
-                            value={props.card.title}
+                            defaultValue={props.card.title}
+                            onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
                     <div className="popup-card-detail__close">
@@ -75,14 +77,8 @@ const PopupCardDetail = (props: IPopupCardDetailProps) => {
                     <button
                         className="popup-card-detail__button-save"
                         type="submit"
-                        onClick={() => onUpdateCardDetail(props.card.id,
-                            {
-                                title: (document.getElementById("title") as HTMLInputElement)?.value,
-                                description: (document.getElementById("description") as HTMLInputElement)?.value,
-                                start_date: (document.getElementById("start-date") as HTMLInputElement)?.value,
-                                due_date: (document.getElementById("due-date") as HTMLInputElement)?.value,
-                                status: (document.getElementById("status") as HTMLInputElement)?.checked
-                            })}>Save
+                        onClick={() => updateCard(props.card)}
+                        >Save
                     </button>
                 </div>
             </div>
